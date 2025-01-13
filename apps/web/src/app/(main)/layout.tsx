@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import React from "react";
-import { Redirect } from "../../../components/redirect";
+import { Redirect } from "../../components/redirect";
 
 interface Props {
   children: React.ReactNode;

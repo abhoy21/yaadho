@@ -1,4 +1,4 @@
-import LandingPage from "../../../../components/landing-page";
+import LandingPage from "../../../components/landing-page";
 
 export default async function Homepage() {
   // const session = await getServerSession();

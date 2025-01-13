@@ -1,4 +1,4 @@
-import Homepage from "./(main)/(pages)/home/page";
+import Homepage from "./(main)/home/page";
 
 export default function Page(): JSX.Element {
   return (
