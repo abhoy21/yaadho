@@ -30,7 +30,7 @@ export function Button({
 
   const variantStyles: Record<Variants, string> = {
     primary: "bg-primary text-white",
-    secondary: "bg-secondary text-white",
+    secondary: "bg-accent text-white ",
     outline: "border-2 border-primary text-primary",
     danger: "bg-danger text-white",
     ghost: "text-gray-500 hover:text-gray-700 bg-transparent",

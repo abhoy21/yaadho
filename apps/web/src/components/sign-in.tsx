@@ -149,14 +149,14 @@ export default function SigninModal({
             handleGoogleSignIn={handleGoogleSignIn}
           />
 
-          <p className="mt-6 text-center text-sm text-gray-600 md:text-lg">
-            Don't have an account?{" "}
-            <button
+          <p className="mt-6 flex items-center justify-center text-center text-sm text-gray-600 md:text-lg">
+            <span> Don't have an account? </span>
+            <Button
               onClick={() => setAuthMode("Signup")}
+              text="Sign up"
+              variant="ghost"
               className="text-secondary hover:text-accent font-medium"
-            >
-              Sign up
-            </button>
+            />
           </p>
         </Modal.Content>
       </Modal>
