@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 
 import { Button } from "@repo/ui/button"; // Import the custom Button component
 import Input from "@repo/ui/input";
@@ -115,21 +115,23 @@ export default function SignupModal({
             <Input
               type="text"
               placeholder="Username"
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 (signUpFormRef.current.username = e.target.value)
               }
             />
             <Input
               type="email"
               placeholder="Email"
-              onChange={(e) => (signUpFormRef.current.email = e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                (signUpFormRef.current.email = e.target.value)
+              }
             />
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               showIcon={true}
               onTogglePasswordVisibility={() => setShowPassword(!showPassword)}
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 (signUpFormRef.current.password = e.target.value)
               }
               Icon={<Eye size={20} className="text-primary" />}

@@ -95,7 +95,7 @@ export function DashboardSidebar({
         </div>
 
         {/* Filter Items */}
-        <nav className="flex flex-grow flex-col justify-between gap-2 p-4">
+        <nav className="flex flex-grow flex-col justify-between gap-6 p-4">
           {filterItems.map((item) => (
             <Button
               key={item.filter}
@@ -106,7 +106,7 @@ export function DashboardSidebar({
               className={`
                  flex w-full items-center justify-center gap-4 p-2 md:justify-start
                  
-                ${activeFilter === item.filter ? "bg-secondary text-white" : "text-accent hover:text-secondary/50 "}
+                ${activeFilter === item.filter ? "bg-secondary text-white" : "text-secondary hover:text-secondary/50 "}
               `}
               onClick={() => handleFilterChange(item.filter)}
             />

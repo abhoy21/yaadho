@@ -5,6 +5,7 @@ import { PlusCircle, Share2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import AddContent from "./add-content";
 
 interface CountStatsProps {
   total: number;
@@ -23,16 +24,14 @@ export default function DashboardHeader() {
     private: 0,
   });
 
-  // Greeting message based on the time of day
   useEffect(() => {
     const hours = new Date().getHours();
     if (hours < 12) setGreetings("Good morning");
     else if (hours < 18) setGreetings("Good afternoon");
     else if (hours < 21) setGreetings("Good evening");
-    else setGreetings("Good night");
+    else setGreetings("It's getting late!");
   }, []);
 
-  // Fetch content statistics
   useEffect(() => {
     const fetchCount = async () => {
       try {
@@ -89,7 +88,7 @@ export default function DashboardHeader() {
             text="Share Brain"
             icon={<Share2 className="h-5 w-5" />}
             onClick={() => setIsShareModalOpen(true)}
-            className="md:py-4 md:text-xl"
+            className="hover:scale-105 md:py-4 md:text-xl"
           />
           <Button
             variant="primary"
@@ -97,7 +96,7 @@ export default function DashboardHeader() {
             text="Add Task"
             icon={<PlusCircle className="h-5 w-5" />}
             onClick={() => setAddIsModalOpen(true)}
-            className="md:py-4 md:text-xl"
+            className="hover:scale-105 md:py-4 md:text-xl"
           />
           <Image
             src="/dashboard-profile.jpg"
@@ -108,6 +107,8 @@ export default function DashboardHeader() {
           />
         </div>
       </div>
+
+      {isAddModalOpen && <AddContent setIsModalOpen={setAddIsModalOpen} />}
 
       {/* {isAddModalOpen && <AddContentModal setIsModalOpen={setAddIsModalOpen} />}
       {isShareModalOpen && (

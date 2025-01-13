@@ -1,26 +1,25 @@
-/* eslint-disable react/function-component-definition */
+import type { InputHTMLAttributes } from "react";
 import React from "react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   showIcon?: boolean;
   onTogglePasswordVisibility?: () => void;
-  Icon?: React.ReactNode; // Icon when password is visible
-  IconOff?: React.ReactNode; // Icon when password is hidden
+  Icon?: React.ReactNode;
+  IconOff?: React.ReactNode;
 
-  inputClassName?: string; // Added input className prop
+  inputClassName?: string;
 }
 
-const Input: React.FC<InputProps> = ({
+export default function Input({
   error,
   showIcon,
   onTogglePasswordVisibility,
   Icon,
   IconOff,
-
   inputClassName = "",
   ...props
-}) => {
+}: InputProps): JSX.Element {
   return (
     <div className="relative">
       <input
@@ -41,6 +40,4 @@ const Input: React.FC<InputProps> = ({
       {error ? <p className="mt-1 text-sm text-red-500">{error}</p> : null}
     </div>
   );
-};
-
-export default Input;
+}

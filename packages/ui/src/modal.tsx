@@ -1,4 +1,3 @@
-// modal.tsx
 "use client";
 
 import React, {
@@ -6,6 +5,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
 } from "react";
 
 // Types
@@ -51,7 +51,7 @@ interface ModalDescriptionProps {
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 // Hook
-function useModal() {
+function useModal(): ModalContextType {
   const context = useContext(ModalContext);
   if (!context) {
     throw new Error("useModal must be used within a Modal");
@@ -66,6 +66,8 @@ function ModalRoot({
   onClose,
   className = "",
 }: ModalProps): JSX.Element | null {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   const handleEscape = useCallback(
     (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
@@ -90,22 +92,22 @@ function ModalRoot({
 
   return (
     <ModalContext.Provider value={{ isOpen, onClose }}>
-      <div
-        aria-modal="true"
-        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 backdrop-blur-sm"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) onClose();
-        }}
-        role="dialog"
-      >
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+        <button
+          aria-label="Close modal overlay"
+          className="fixed inset-0 bg-black bg-opacity-25"
+          onClick={onClose}
+          type="button"
+        />
+
         <div
+          aria-modal="true"
           className={`relative w-full max-w-lg transform rounded-lg bg-white p-6 shadow-xl transition-all ${className}`}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          role="document"
+          ref={dialogRef}
+          role="dialog"
+          tabIndex={-1}
         >
-          {children}
+          <div className="focus-trap">{children}</div>
         </div>
       </div>
     </ModalContext.Provider>

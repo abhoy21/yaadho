@@ -1,6 +1,7 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 import React, { useState } from "react";
+import CardSection from "./card-section";
 import DashboardHeader from "./dashboard-header";
 import DashboardNavbar from "./dashboard-navbar";
 import { DashboardSidebar } from "./dashboard-sidebar";
@@ -23,6 +24,7 @@ const DashboardPreviewPage: React.FC = () => {
             setSearchTerm={setSearchTerm}
           />
           <DashboardHeader />
+          <CardSection activeFilter={filter} searchTerm={searchTerm} />
         </div>
       </div>
     </SessionProvider>
