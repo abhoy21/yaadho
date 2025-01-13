@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 import { Button } from "@repo/ui/button"; // Import the custom Button component
+import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
 import { Eye, EyeOff } from "lucide-react";
 import { createPortal } from "react-dom";
@@ -15,12 +16,14 @@ interface SigninProps {
   setIsOpen: (value: boolean) => void;
   showToast: (message: string, type: ToastType) => void;
   ToastContainer: () => React.ReactElement;
+  setAuthMode: (value: string) => void;
 }
 
 export default function SigninModal({
   setIsOpen,
   showToast,
   ToastContainer,
+  setAuthMode,
 }: SigninProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -84,46 +87,41 @@ export default function SigninModal({
   return createPortal(
     <div className="fixed inset-0 z-[9999]">
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/25 backdrop-blur-sm"
         onClick={() => setIsOpen(false)}
       />
       <Modal
         isOpen={true}
         onClose={() => setIsOpen(false)}
-        className="w-full max-w-md"
+        className="w-full max-w-md p-4"
       >
         <Modal.Header>
           <Logo />
-
-          <Modal.Title>Sign In</Modal.Title>
         </Modal.Header>
+        <Modal.Title>Sign In</Modal.Title>
+        <Modal.Description className="mb-4">
+          Get back your Second Brain now!
+        </Modal.Description>
 
         <Modal.Content>
           <ToastContainer />
           <form onSubmit={handleSignin} className="space-y-4">
-            <input
+            <Input
               type="email"
               placeholder="Email"
               onChange={(e) => (signInFormRef.current.email = e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             />
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                onChange={(e) =>
-                  (signInFormRef.current.password = e.target.value)
-                }
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              showPasswordToggle
+              onTogglePasswordVisibility={() => setShowPassword(!showPassword)}
+              onChange={(e) =>
+                (signInFormRef.current.password = e.target.value)
+              }
+              Icon={<Eye size={20} className="text-primary" />}
+              IconOff={<EyeOff size={20} className="text-secondary" />}
+            />
 
             <Button
               type="submit"
@@ -134,7 +132,7 @@ export default function SigninModal({
             />
           </form>
 
-          <div className="relative my-6">
+          <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
@@ -179,11 +177,7 @@ export default function SigninModal({
               variant="outline"
               text={
                 <>
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="black">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"
@@ -199,10 +193,8 @@ export default function SigninModal({
           <p className="mt-6 text-center text-sm text-gray-600 md:text-lg">
             Don't have an account?{" "}
             <button
-              onClick={() => {
-                /* Switch to signup mode */
-              }}
-              className="font-medium text-blue-600 hover:text-blue-800"
+              onClick={() => setAuthMode("Signup")}
+              className="text-secondary hover:text-accent font-medium"
             >
               Sign up
             </button>

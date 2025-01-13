@@ -1,8 +1,8 @@
 "use client";
 import type { ReactNode } from "react";
 
-type Variants = "primary" | "secondary" | "outline" | "danger";
-type ButtonSize = "sm" | "md" | "lg";
+type Variants = "primary" | "secondary" | "outline" | "danger" | "ghost";
+type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variants;
@@ -26,19 +26,21 @@ export function Button({
   ...props
 }: ButtonProps): JSX.Element {
   const baseStyles =
-    "rounded-md transition-all duration-200 flex items-center justify-center gap-2";
+    "rounded-lg transition-all duration-200 flex items-center justify-center gap-2";
 
   const variantStyles: Record<Variants, string> = {
     primary: "bg-primary text-white",
     secondary: "bg-secondary text-white",
     outline: "border-2 border-primary text-primary",
     danger: "bg-danger text-white",
+    ghost: "text-gray-500 hover:text-gray-700 bg-transparent",
   };
 
   const sizeStyles: Record<ButtonSize, string> = {
     sm: "text-sm px-3 py-1",
     md: "text-base px-4 py-2",
     lg: "text-lg px-8 py-2",
+    icon: "p-1",
   };
 
   const disabledStyles = "opacity-50 cursor-not-allowed pointer-events-none";
