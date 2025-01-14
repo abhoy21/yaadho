@@ -80,7 +80,7 @@ export default function CardDisplay({
       <Card.Footer className="bg-secondary text-background">
         <div className="flex items-center">
           <p className="text-sm font-medium tracking-wider md:text-base">
-            Created at
+            Date
           </p>
           <span className="mx-2 text-gray-900">⋮</span>
           <p className="font-mono text-sm font-medium md:text-base">

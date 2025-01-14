@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import AddContent from "./add-content";
+import { ShareBrainModal } from "./share-brain";
 
 interface CountStatsProps {
   total: number;
@@ -51,10 +52,10 @@ export default function DashboardHeader() {
     <div className="mb-6 flex flex-col items-start justify-around gap-4 md:flex-row md:items-center md:gap-8">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-text font-montserrat text-2xl font-bold tracking-wider md:text-4xl">
+          <h1 className="text-text font-montserrat text-2xl font-bold tracking-wider md:ml-24 md:text-4xl">
             {greetings}, {session?.user.username}
           </h1>
-          <p className="text-accent mt-2 md:text-base">
+          <p className="text-accent mt-2 md:ml-24 md:text-base">
             Let&apos;s make this day productive.
           </p>
         </div>
@@ -81,22 +82,22 @@ export default function DashboardHeader() {
           ))}
         </div>
 
-        <div className="flex w-full items-center gap-4 sm:w-auto">
+        <div className="flex w-full items-center justify-end gap-4 sm:w-auto">
           <Button
             variant="secondary"
-            size="lg"
+            size="md"
             text="Share Brain"
             icon={<Share2 className="h-5 w-5" />}
             onClick={() => setIsShareModalOpen(true)}
-            className="hover:scale-105 md:py-4 md:text-xl"
+            className="text-base hover:scale-105 md:py-4 md:text-lg"
           />
           <Button
             variant="primary"
-            size="lg"
+            size="md"
             text="Add Task"
             icon={<PlusCircle className="h-5 w-5" />}
             onClick={() => setAddIsModalOpen(true)}
-            className="hover:scale-105 md:py-4 md:text-xl"
+            className="text-base hover:scale-105 md:py-4 md:text-lg"
           />
           <Image
             src="/dashboard-profile.jpg"
@@ -110,10 +111,9 @@ export default function DashboardHeader() {
 
       {isAddModalOpen && <AddContent setIsModalOpen={setAddIsModalOpen} />}
 
-      {/* {isAddModalOpen && <AddContentModal setIsModalOpen={setAddIsModalOpen} />}
       {isShareModalOpen && (
         <ShareBrainModal setIsModalOpen={setIsShareModalOpen} />
-      )} */}
+      )}
     </div>
   );
 }

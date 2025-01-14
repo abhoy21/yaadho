@@ -11,6 +11,7 @@ import {
   X,
   Youtube,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 import Logo from "./logo";
 import LogoAlt from "./logo-alt";
@@ -46,13 +47,24 @@ export function DashboardSidebar({
     setIsMobileOpen(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut({
+        callbackUrl: "/",
+        redirect: true,
+      });
+    } catch (error) {
+      console.error("error logging out user", error);
+    }
+  };
+
   return (
     <>
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"
         size="icon"
-        icon={<Menu />}
+        icon={isMobileOpen ? undefined : <Menu />}
         className="fixed left-4 top-4 z-50 lg:hidden"
         onClick={() => setIsMobileOpen(true)}
       />
@@ -71,7 +83,7 @@ export function DashboardSidebar({
           variant="ghost"
           size="icon"
           icon={<X />}
-          className="absolute right-4 top-4 lg:hidden"
+          className="absolute right-0 top-4 lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
 
@@ -118,6 +130,7 @@ export function DashboardSidebar({
           variant="ghost"
           className="text-danger hover:text-danger/50 absolute bottom-4 right-4 w-full md:text-xl"
           icon={<LogOut className="w=5 h=5 text-danger" />}
+          onClick={() => handleLogout()}
         />
       </div>
     </>

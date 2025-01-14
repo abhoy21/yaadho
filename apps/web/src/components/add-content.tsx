@@ -102,7 +102,7 @@ export default function AddContent({
       <Modal
         isOpen={true}
         onClose={() => setIsModalOpen(false)}
-        className="w-full max-w-md rounded-3xl p-6 md:max-w-lg"
+        className="w-full max-w-md p-6 md:max-w-lg"
       >
         <ToastContainer />
         <Modal.Header>
@@ -116,8 +116,9 @@ export default function AddContent({
 
         <div className="mb-4 flex justify-center gap-4">
           {Object.values(ContentType).map((type) => (
-            <button
+            <Button
               key={type}
+              text={type.charAt(0).toUpperCase() + type.slice(1)}
               className={`rounded-lg px-4 py-2 text-sm font-medium ${
                 activeTab === type
                   ? "bg-primary text-background"
@@ -127,9 +128,7 @@ export default function AddContent({
                 setActiveTab(type);
                 setContentData({ ...contentData, type, content: "" });
               }}
-            >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </button>
+            />
           ))}
         </div>
 

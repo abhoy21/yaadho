@@ -94,7 +94,9 @@ function CardFooter({
 
 function CardTitle({ children, className = "" }: CardTitleProps): JSX.Element {
   return (
-    <h3 className={`m-4 text-lg font-medium md:text-2xl ${className}`}>
+    <h3
+      className={`m-4 line-clamp-1 text-lg font-medium md:text-2xl ${className}`}
+    >
       {children}
     </h3>
   );

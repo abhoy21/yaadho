@@ -67,7 +67,7 @@ export default function CardOptions({
     <Modal
       isOpen={true}
       onClose={() => setModalOpen(false)}
-      className="bg-accent/75 w-full max-w-sm rounded-3xl p-6"
+      className="bg-accent/90 w-full max-w-sm rounded-3xl p-6"
     >
       <Modal.Header>
         <Modal.Title>Options</Modal.Title>
@@ -92,7 +92,7 @@ export default function CardOptions({
               isPublic ? <Lock className="mr-2" /> : <Globe className="mr-2" />
             }
             onClick={handleTogglePublic}
-            className="flex items-center rounded p-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="text-text flex items-center rounded p-2 text-base hover:bg-gray-100"
           />
 
           <Button
@@ -101,7 +101,7 @@ export default function CardOptions({
             variant="ghost"
             icon={<Eye className="mr-2" />}
             onClick={handlePreview}
-            className="flex items-center rounded p-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="text-text flex items-center rounded p-2 text-base hover:bg-gray-100"
           />
 
           <Button
@@ -110,7 +110,7 @@ export default function CardOptions({
             variant="ghost"
             icon={<Trash2 className="mr-2" />}
             onClick={handleDelete}
-            className="flex items-center rounded p-2 text-red-600 hover:bg-red-100"
+            className="flex items-center rounded p-2 text-base text-red-600 hover:bg-red-100"
           />
         </div>
       </Modal.Content>
