@@ -6,8 +6,8 @@ import { Modal } from "@repo/ui/modal"; // Importing the prebuilt Modal componen
 import axios from "axios";
 import { Globe, Lock, X } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "../../hooks/useToast";
-import { addContentSchema } from "../../lib/zod-schema";
+import { useToast } from "../hooks/useToast";
+import { addContentSchema } from "../lib/zod-schema";
 
 enum ContentType {
   link = "link",

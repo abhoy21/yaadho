@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@repo/ui/button";
 import { useState } from "react";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../hooks/useToast";
 import SigninModal from "./sign-in";
 import SignupModal from "./sign-up";
 

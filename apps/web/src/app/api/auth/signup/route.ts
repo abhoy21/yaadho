@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "../../../../../lib/prisma";
-import { signupSchema } from "../../../../../lib/zod-schema";
+import { prisma } from "../../../../lib/prisma";
+import { signupSchema } from "../../../../lib/zod-schema";
 
 export async function POST(req: NextRequest) {
   try {

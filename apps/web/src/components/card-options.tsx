@@ -4,7 +4,7 @@ import { Button } from "@repo/ui/button";
 import { Modal } from "@repo/ui/modal";
 import axios from "axios";
 import { Eye, Globe, Lock, Trash2 } from "lucide-react";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../hooks/useToast";
 
 interface CardOptionsProps {
   setModalOpen: (value: boolean) => void;

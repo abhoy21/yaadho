@@ -8,8 +8,8 @@ import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
 import { Eye, EyeOff } from "lucide-react";
 import { createPortal } from "react-dom";
-import { ToastType } from "../../hooks/useToast";
-import { signupSchema } from "../../lib/zod-schema";
+import { ToastType } from "../hooks/useToast";
+import { signupSchema } from "../lib/zod-schema";
 import Logo from "./logo";
 import { SocialLogins } from "./social-logins";
 
