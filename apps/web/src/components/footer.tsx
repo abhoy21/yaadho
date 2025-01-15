@@ -1,11 +1,5 @@
-import {
-  Calendar,
-  ChevronRight,
-  Clock,
-  Flag,
-  HelpCircle,
-  Link,
-} from "lucide-react";
+import { Calendar, ChevronRight, Clock, Flag, HelpCircle } from "lucide-react";
+import Link from "next/link";
 import Logo from "./logo";
 
 export default function Footer(): React.JSX.Element {

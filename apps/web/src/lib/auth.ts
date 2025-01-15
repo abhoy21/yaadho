@@ -67,8 +67,8 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       authorization: {
         params: {
           prompt: "select_account",
@@ -77,8 +77,8 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GitHubProvider({
-      clientId: process.env.GITHUB_ID ?? "",
-      clientSecret: process.env.GITHUB_SECRET ?? "",
+      clientId: process.env.GITHUB_ID || "",
+      clientSecret: process.env.GITHUB_SECRET || "",
     }),
   ],
 
@@ -153,7 +153,7 @@ export const authOptions: NextAuthOptions = {
 
           if (existingUser) {
             const existingProviderAccount = existingUser.accounts.find(
-              (acc: { provider: string }) => acc.provider === account.provider,
+              (acc) => acc.provider === account.provider,
             );
 
             if (!existingProviderAccount) {
