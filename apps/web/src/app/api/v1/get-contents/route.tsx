@@ -12,6 +12,10 @@ interface Content {
   isPublic: boolean;
   createdAt: Date;
 }
+interface Tag {
+  contentId: number;
+  name: string;
+}
 
 type TagsRecord = Record<number, string[]>;
 
@@ -29,7 +33,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       },
     });
 
-    const tags = await prisma.tag.findMany({
+    const tags: Tag[] = await prisma.tag.findMany({
       where: {
         contentId: {
           in: content.map((c: Content) => c.id),
