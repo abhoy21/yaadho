@@ -1,6 +1,6 @@
 import IntegrationGrid from "./integrations-grid";
 
-export default function OtherIntegrations(): JSX.Element {
+export default function OtherIntegrations(): React.JSX.Element {
   return (
     <div className="my-24 py-12">
       <div className="flowchart-grid mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

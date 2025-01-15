@@ -2,6 +2,7 @@ module.exports = {
   extends: ["@repo/eslint-config/next.js"],
   rules: {
     "@typescript-eslint/naming-convention": "error",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unnecessary-condition": "error",
     "react/no-array-index-key": "off",
     "import/no-named-as-default": "off",
