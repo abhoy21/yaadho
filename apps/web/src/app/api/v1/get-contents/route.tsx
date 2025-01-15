@@ -3,6 +3,16 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
+interface Content {
+  id: number;
+  userId: number;
+  title: string;
+  content: string;
+  type: string;
+  isPublic: boolean;
+  createdAt: Date;
+}
+
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
@@ -34,7 +44,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return acc;
     }, {});
 
-    const contents = content.map((c) => {
+    const contents = content.map((c: Content) => {
       return {
         ...c,
         tags: tagsList[c.id],
