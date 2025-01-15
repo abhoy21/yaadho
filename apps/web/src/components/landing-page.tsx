@@ -8,7 +8,7 @@ import Testimonials from "./testimonials";
 
 export default function LandingPage(): React.JSX.Element {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="min-h-screen">
       <Navbar />
       <main>
         <Hero />
