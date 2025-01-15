@@ -1,11 +1,14 @@
-import bcrypt from "bcrypt";
-import { NextRequest, NextResponse } from "next/server";
+import { hash } from "bcrypt";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { User } from "../../../../../types/user-types";
 import { prisma } from "../../../../lib/prisma";
 import { signupSchema } from "../../../../lib/zod-schema";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as User;
+
     const validation = await signupSchema.safeParseAsync(body);
 
     if (!validation.success) {
@@ -29,7 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hash(password, 10);
 
     const newUser = await prisma.user.create({
       data: {
@@ -49,7 +52,6 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error creating user" },
       { status: 500 },

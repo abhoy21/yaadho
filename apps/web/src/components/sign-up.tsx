@@ -1,19 +1,19 @@
 "use client";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useRef, useState } from "react";
-
-import { Button } from "@repo/ui/button"; // Import the custom Button component
+import { Button } from "@repo/ui/button";
 import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
 import { Eye, EyeOff } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import type { ChangeEvent } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ToastType } from "../hooks/useToast";
+import type { ToastType } from "../../hooks/use-toast";
 import { signupSchema } from "../lib/zod-schema";
 import Logo from "./logo";
 import { SocialLogins } from "./social-logins";
 
-interface SingupProps {
+interface SignupProps {
   setIsOpen: (value: boolean) => void;
   showToast: (message: string, type: ToastType) => void;
   ToastContainer: () => React.ReactElement;
@@ -25,7 +25,7 @@ export default function SignupModal({
   showToast,
   ToastContainer,
   setAuthMode,
-}: SingupProps) {
+}: SignupProps): React.JSX.Element {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const signUpFormRef = useRef<{
@@ -38,69 +38,68 @@ export default function SignupModal({
     password: "",
   });
 
-  const handleSignin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const validation = signupSchema.safeParse(signUpFormRef.current);
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
-    if (!validation.success) {
-      validation.error.errors.forEach((error) =>
-        showToast(error.message, "error"),
-      );
-      return;
-    }
+  const handleFormSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const validation = signupSchema.safeParse(signUpFormRef.current);
 
-    try {
-      const response = await signIn("credentials", {
-        email: validation.data.email,
-        password: validation.data.password,
-        redirect: false,
-        callbackUrl: "/dashboard",
-      });
-
-      if (response?.error) {
-        showToast(response.error, "error");
+      if (!validation.success) {
+        validation.error.errors.forEach((error) => {
+          showToast(error.message, "error");
+        });
         return;
       }
 
-      showToast("Signed in successfully!", "success");
-      setIsOpen(false);
-      router.push("/dashboard");
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      showToast("Sign in failed.", "error");
-    }
-  };
+      try {
+        const response = await signIn("credentials", {
+          username: validation.data.username,
+          email: validation.data.email,
+          password: validation.data.password,
+          redirect: false,
+          callbackUrl: "/dashboard",
+        });
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signIn("google", { callbackUrl: "/dashboard", redirect: true });
-    } catch (error) {
-      console.error(error);
-      showToast("Sign in failed.", "error");
-    }
-  };
+        if (response?.error) {
+          showToast(response.error, "error");
+          return;
+        }
 
-  const handleGithubSignIn = async () => {
-    try {
-      await signIn("github", { callbackUrl: "/dashboard", redirect: true });
-    } catch (error) {
-      console.error(error);
-      showToast("Sign in failed.", "error");
-    }
-  };
+        showToast("Signed in successfully!", "success");
+        handleClose();
+        router.push("/dashboard");
+        router.refresh();
+      } catch (error) {
+        showToast("Sign in failed.", "error");
+      }
+    },
+    [router, showToast, handleClose],
+  );
+
+  const handleGoogleSignIn = useCallback(() => {
+    void signIn("google", { callbackUrl: "/dashboard", redirect: true });
+  }, []);
+
+  const handleGithubSignIn = useCallback(() => {
+    void signIn("github", { callbackUrl: "/dashboard", redirect: true });
+  }, []);
 
   return createPortal(
     <div className="fixed inset-0 z-[9999]">
       <div
+        aria-label="Close modal"
         className="fixed inset-0 bg-black/25 backdrop-blur-sm"
-        onClick={() => setIsOpen(false)}
+        onClick={handleClose}
+        onKeyDown={(e) => {
+          e.key === "Enter" && handleClose();
+        }}
+        role="button"
+        tabIndex={0}
       />
-      <Modal
-        isOpen={true}
-        onClose={() => setIsOpen(false)}
-        className="w-full max-w-md p-4"
-      >
+      <Modal className="w-full max-w-md p-4" isOpen onClose={handleClose}>
         <Modal.Header>
           <Logo />
         </Modal.Header>
@@ -111,45 +110,47 @@ export default function SignupModal({
 
         <Modal.Content>
           <ToastContainer />
-          <form onSubmit={handleSignin} className="space-y-4">
+          <form className="space-y-4" onSubmit={handleFormSubmit}>
             <Input
-              type="text"
-              placeholder="Username"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 (signUpFormRef.current.username = e.target.value)
               }
+              placeholder="Username"
+              type="text"
             />
             <Input
-              type="email"
-              placeholder="Email"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 (signUpFormRef.current.email = e.target.value)
               }
+              placeholder="Email"
+              type="email"
             />
             <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              showIcon={true}
-              onTogglePasswordVisibility={() => setShowPassword(!showPassword)}
+              Icon={<Eye className="text-primary" size={20} />}
+              IconOff={<EyeOff className="text-secondary" size={20} />}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 (signUpFormRef.current.password = e.target.value)
               }
-              Icon={<Eye size={20} className="text-primary" />}
-              IconOff={<EyeOff size={20} className="text-secondary" />}
+              onTogglePasswordVisibility={() => {
+                setShowPassword(!showPassword);
+              }}
+              placeholder="Password"
+              showIcon
+              type={showPassword ? "text" : "password"}
             />
 
             <Button
+              className="hover:bg-secondary w-full py-3 font-semibold transition-colors duration-300 ease-in-out"
+              size="lg"
+              text="Sign In"
               type="submit"
               variant="primary"
-              text="Sign In"
-              size="lg"
-              className="hover:bg-secondary w-full py-3 font-semibold transition-colors duration-300 ease-in-out"
             />
           </form>
 
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="bg-white px-2 text-gray-500">
@@ -164,12 +165,14 @@ export default function SignupModal({
           />
 
           <p className="mt-6 flex items-center justify-center text-center text-sm text-gray-600 md:text-lg">
-            <span> Don't have an account? </span>
+            <span> Don&apos;t have an account? </span>
             <Button
-              onClick={() => setAuthMode("Signin")}
+              className="text-secondary hover:text-accent font-medium"
+              onClick={() => {
+                setAuthMode("Signin");
+              }}
               text="Sign in"
               variant="ghost"
-              className="text-secondary hover:text-accent font-medium"
             />
           </p>
         </Modal.Content>

@@ -1,11 +1,10 @@
-"use client";
-
 import { Card } from "@repo/ui/card";
+import React from "react";
 
-export const CardSkeleton = () => {
+export default function CardSkeleton(): React.JSX.Element {
   return (
     <Card className="animate-pulse">
-      <Card.Header isPublic className="flex justify-between">
+      <Card.Header className="flex justify-between" isPublic>
         <div className="w-1/2">
           <div className="h-6 rounded-md bg-gray-200" />
         </div>
@@ -22,4 +21,4 @@ export const CardSkeleton = () => {
       </Card.Footer>
     </Card>
   );
-};
+}

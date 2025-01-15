@@ -14,12 +14,12 @@ interface NavbarProps {
 export default function DashboardNavbar({
   searchTerm,
   setSearchTerm,
-}: NavbarProps) {
+}: NavbarProps): React.JSX.Element {
   const [aiModal, setAiModal] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
         setModalOpen(true);
@@ -47,11 +47,13 @@ export default function DashboardNavbar({
           <div className="relative ml-12 md:ml-0">
             <SearchIcon className="text-primary absolute inset-0 left-4 top-1/2 z-20 h-6 w-6 -translate-y-[57%]" />
             <Input
-              type="text"
-              placeholder="Find something"
               inputClassName="text-primary placeholder-secondary shadow-secondary/20 w-64 shadow-md md:w-[500px] py-2 md:py-4 pl-12 pr-16"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
+              placeholder="Find something"
+              type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             <div className="absolute right-4 top-1/2 hidden -translate-y-1/2 items-center space-x-1 text-sm text-gray-500 md:flex">
@@ -62,24 +64,26 @@ export default function DashboardNavbar({
           </div>
 
           <Button
+            className="ml-12 h-12 w-64 transition-all  duration-300 ease-in-out hover:scale-105 md:ml-0 md:w-auto md:text-xl"
+            icon={<Sparkles className="h-5 w-5" />}
+            onClick={() => {
+              setAiModal(true);
+            }}
+            size="md"
             text="Ask AI"
             variant="primary"
-            size="md"
-            icon={<Sparkles className="h-5 w-5" />}
-            className="ml-12 h-12 w-64 transition-all  duration-300 ease-in-out hover:scale-105 md:ml-0 md:w-auto md:text-xl"
-            onClick={() => setAiModal(true)}
           />
         </div>
       </div>
-      {modalOpen && (
+      {modalOpen ? (
         <SearchModal
           searchTerm={searchTerm}
+          setModalOpen={setModalOpen}
           setSearchTerm={setSearchTerm}
-          setmodalOpen={setModalOpen}
         />
-      )}
+      ) : null}
 
-      {aiModal && <AiModal setAiModal={setAiModal} />}
+      {aiModal ? <AiModal setAiModal={setAiModal} /> : null}
     </>
   );
 }

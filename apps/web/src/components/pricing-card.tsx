@@ -1,3 +1,4 @@
+import { Button } from "@repo/ui/button";
 import { Check, X, Zap } from "lucide-react";
 
 interface PricingProps {
@@ -14,24 +15,24 @@ export default function PricingCard({
   price,
   isPopular,
   features,
-}: PricingProps) {
+}: PricingProps): React.JSX.Element {
+  const ConditionclassNames = (): string => {
+    if (isPopular) {
+      return "bg-primary z-10 transform text-white shadow-xl md:scale-105";
+    } else if (price === "$15") {
+      return "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:rotate-6 md:transform";
+    } else if (price === "$5") {
+      return "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:-rotate-6 md:transform";
+    }
+    return "";
+  };
   return (
-    <div
-      className={`relative rounded-2xl p-8 ${
-        isPopular
-          ? "bg-primary z-10 transform text-white shadow-xl md:scale-105"
-          : price === "$15"
-            ? "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:rotate-6 md:transform"
-            : price === "$5"
-              ? "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:-rotate-6 md:transform"
-              : ""
-      }`}
-    >
-      {isPopular && (
+    <div className={`relative rounded-2xl p-8 ${ConditionclassNames()}`}>
+      {isPopular ? (
         <div className="-right-4 -top-4 hidden -rotate-12 transform rounded-xl bg-yellow-50 p-2 shadow-lg md:absolute">
           <Zap className="h-10 w-10 text-yellow-400" />
         </div>
-      )}
+      ) : null}
 
       <h3 className="mb-4 text-xl font-bold">{name}</h3>
       <p
@@ -49,20 +50,19 @@ export default function PricingCard({
         </p>
       </div>
 
-      <button
+      <Button
         className={`mb-8 w-full rounded-full px-4 py-2 ${
           isPopular
             ? "text-primary bg-white hover:bg-gray-50"
             : "bg-primary text-white hover:bg-blue-600"
         }`}
-      >
-        Get started
-      </button>
+        text="Get started"
+      />
 
       {isPopular ? (
         <ul className="space-y-4">
           {features.map((feature, index) => (
-            <li key={index} className="flex items-center gap-3">
+            <li className="flex items-center gap-3" key={index}>
               <Check className="h-5 w-5 text-red-100" />
               <span className="text-md font-semibold">{feature}</span>
             </li>
@@ -71,13 +71,13 @@ export default function PricingCard({
       ) : (
         <ul className="space-y-4">
           {features.slice(0, 2).map((feature, index) => (
-            <li key={index} className="flex items-center gap-3">
+            <li className="flex items-center gap-3" key={index}>
               <Check className="text-primary h-5 w-5" />
               <span className="text-md font-semibold">{feature}</span>
             </li>
           ))}
           {features.slice(2, 7).map((feature, index) => (
-            <li key={index} className="flex items-center gap-3">
+            <li className="flex items-center gap-3" key={index}>
               <X className="h-5 w-5 text-red-500" />
               <span className="text-md font-semibold">{feature}</span>
             </li>

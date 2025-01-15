@@ -47,73 +47,81 @@ const integrations2 = [
   },
 ];
 
-export default function IntegrationGrid() {
+export default function IntegrationGrid(): React.JSX.Element {
   return (
     <div className="my-8 md:my-16">
       <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 sm:gap-6 md:hidden">
-        {integrations1.map((integration, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg"
-          >
-            <Image
-              src={integration.icon}
-              alt={integration.name}
-              width={36}
-              height={36}
-              className="h-8 w-8"
-            />
-          </div>
-        ))}
-        {integrations2.map((integration, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg"
-          >
-            <Image
-              src={integration.icon}
-              alt={integration.name}
-              width={36}
-              height={36}
-              className="h-8 w-8"
-            />
-          </div>
-        ))}
+        {integrations1.map((integration, index) => {
+          return (
+            <div
+              className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg"
+              key={index}
+            >
+              <Image
+                alt={integration.name}
+                className="h-8 w-8"
+                height={36}
+                src={integration.icon}
+                width={36}
+              />
+            </div>
+          );
+        })}
+        {integrations2.map((integration, index) => {
+          return (
+            <div
+              className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg"
+              key={index}
+            >
+              <Image
+                alt={integration.name}
+                className="h-8 w-8"
+                height={36}
+                src={integration.icon}
+                width={36}
+              />
+            </div>
+          );
+        })}
       </div>
 
       <div className="hidden gap-6 md:grid md:grid-cols-7 md:gap-12">
         <div className="col-span-7 flex justify-end gap-4 md:gap-16">
-          {integrations1.map((integration, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg md:p-4"
-            >
-              <Image
-                src={integration.icon}
-                alt={integration.name}
-                width={36}
-                height={36}
-                className="h-8 w-8 md:h-12 md:w-12"
-              />
-            </div>
-          ))}
+          {integrations1.map((integration, index) => {
+            return (
+              <div
+                className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg md:p-4"
+                key={index}
+              >
+                <Image
+                  alt={integration.name}
+                  className="h-8 w-8 md:h-12 md:w-12"
+                  height={36}
+                  src={integration.icon}
+                  width={36}
+                />
+              </div>
+            );
+          })}
         </div>
 
         <div className="col-span-7 flex justify-start gap-4 md:gap-16">
-          {integrations2.map((integration, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg md:p-4"
-            >
-              <Image
-                src={integration.icon}
-                alt={integration.name}
-                width={36}
-                height={36}
-                className="h-8 w-8 md:h-12 md:w-12"
-              />
-            </div>
-          ))}
+          {integrations2.map((integration, index) => {
+            return (
+              <div
+                className="flex items-center justify-center rounded-xl bg-white p-3 shadow-md transition-shadow duration-200 ease-in-out hover:shadow-lg md:p-4"
+                key={index}
+              >
+                <Image
+                  alt={integration.name}
+                  className="h-8 w-8 md:h-12 md:w-12"
+                  height={36}
+                  src={integration.icon}
+                  width={36}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

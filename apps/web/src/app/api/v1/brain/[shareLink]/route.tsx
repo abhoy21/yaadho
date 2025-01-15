@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../../lib/prisma";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(req.url);
     const pathName = url.pathname;
     const parts = pathName.split("/");
     const shareLink = parts[parts.length - 1];
-    console.log("Share Link Id: ", shareLink);
 
     const brain = await prisma.link.findUnique({
       where: {
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    if (!content) {
+    if (content.length === 0) {
       return NextResponse.json(
         { message: "No content found" },
         { status: 404 },
@@ -41,7 +41,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ content }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error retrieving brain" },
       { status: 500 },

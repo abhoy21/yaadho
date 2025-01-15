@@ -4,7 +4,7 @@ export const generatePassword = ({
 }: {
   email: string;
   name: string;
-}) => {
+}): string => {
   const characters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   const emailParts = email.split("@");

@@ -35,7 +35,7 @@ interface CardTagsProps {
 }
 
 // Components
-function CardRoot({ children, className = "" }: CardProps): JSX.Element {
+function CardRoot({ children, className = "" }: CardProps): React.JSX.Element {
   return (
     <div className={`rounded-3xl border shadow-lg ${className}`}>
       {children}
@@ -47,7 +47,7 @@ function CardHeader({
   children,
   className = "",
   onClick,
-}: CardHeaderProps): JSX.Element {
+}: CardHeaderProps): React.JSX.Element {
   return (
     <div
       className={`m-2 flex items-start justify-between ${className}`}
@@ -69,7 +69,7 @@ function CardHeader({
 function CardContent({
   children,
   className = "",
-}: CardContentProps): JSX.Element {
+}: CardContentProps): React.JSX.Element {
   return (
     <div
       className={`m-4 max-h-[500px] min-h-[100px] py-4 tracking-wider ${className}`}
@@ -82,7 +82,7 @@ function CardContent({
 function CardFooter({
   children,
   className = "",
-}: CardFooterProps): JSX.Element {
+}: CardFooterProps): React.JSX.Element {
   return (
     <div
       className={`flex items-center justify-between rounded-b-2xl p-2 ${className}`}
@@ -92,7 +92,10 @@ function CardFooter({
   );
 }
 
-function CardTitle({ children, className = "" }: CardTitleProps): JSX.Element {
+function CardTitle({
+  children,
+  className = "",
+}: CardTitleProps): React.JSX.Element {
   return (
     <h3
       className={`m-4 line-clamp-1 text-lg font-medium md:text-2xl ${className}`}
@@ -102,7 +105,7 @@ function CardTitle({ children, className = "" }: CardTitleProps): JSX.Element {
   );
 }
 
-function CardTags({ tags, className = "" }: CardTagsProps): JSX.Element {
+function CardTags({ tags, className = "" }: CardTagsProps): React.JSX.Element {
   return (
     <div className={`m-4 text-sm font-medium ${className}`}>
       {tags.map((tag, index) => (

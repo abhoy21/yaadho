@@ -12,16 +12,10 @@ import {
   Youtube,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { ContentFilter } from "../../types/content-filter-types";
 import Logo from "./logo";
 import LogoAlt from "./logo-alt";
-
-export enum ContentFilter {
-  ALL = "all",
-  YOUTUBE = "youtube",
-  TWITTER = "twitter",
-  GITHUB = "github",
-}
 
 interface SidebarProps {
   onFilterChange: (filter: ContentFilter) => void;
@@ -31,7 +25,7 @@ interface SidebarProps {
 export function DashboardSidebar({
   onFilterChange,
   activeFilter,
-}: SidebarProps) {
+}: SidebarProps): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -42,31 +36,29 @@ export function DashboardSidebar({
     { icon: <Github />, label: "GitHub", filter: ContentFilter.GITHUB },
   ];
 
-  const handleFilterChange = (filter: ContentFilter) => {
-    onFilterChange(filter);
-    setIsMobileOpen(false);
-  };
+  const handleFilterChange = useCallback(
+    (filter: ContentFilter): void => {
+      onFilterChange(filter);
+      setIsMobileOpen(false);
+    },
+    [onFilterChange, setIsMobileOpen],
+  );
 
-  const handleLogout = async () => {
-    try {
-      await signOut({
-        callbackUrl: "/",
-        redirect: true,
-      });
-    } catch (error) {
-      console.error("error logging out user", error);
-    }
-  };
+  const handleLogout = useCallback(() => {
+    void signOut({ callbackUrl: "/", redirect: true });
+  }, []);
 
   return (
     <>
       {/* Mobile Menu Button */}
       <Button
-        variant="ghost"
-        size="icon"
-        icon={isMobileOpen ? undefined : <Menu />}
         className="fixed left-4 top-4 z-50 lg:hidden"
-        onClick={() => setIsMobileOpen(true)}
+        icon={isMobileOpen ? undefined : <Menu />}
+        onClick={() => {
+          setIsMobileOpen(true);
+        }}
+        size="icon"
+        variant="ghost"
       />
 
       {/* Sidebar Container */}
@@ -80,11 +72,13 @@ export function DashboardSidebar({
       >
         {/* Mobile Close Button */}
         <Button
-          variant="ghost"
-          size="icon"
-          icon={<X />}
           className="absolute right-0 top-4 lg:hidden"
-          onClick={() => setIsMobileOpen(false)}
+          icon={<X />}
+          onClick={() => {
+            setIsMobileOpen(false);
+          }}
+          size="icon"
+          variant="ghost"
         />
 
         {/* Logo Area */}
@@ -92,8 +86,7 @@ export function DashboardSidebar({
           {isOpen ? <Logo /> : <LogoAlt />}
           {/* Toggle Button (Desktop) */}
           <Button
-            variant="secondary"
-            size="icon"
+            className="absolute -right-4 top-2 hidden translate-x-1/2 transform lg:flex"
             icon={
               isOpen ? (
                 <ArrowLeftToLine className="text-background" />
@@ -101,8 +94,11 @@ export function DashboardSidebar({
                 <ArrowRightToLine className="text-background" />
               )
             }
-            className="absolute -right-4 top-2 hidden translate-x-1/2 transform lg:flex"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+            size="icon"
+            variant="secondary"
           />
         </div>
 
@@ -110,27 +106,31 @@ export function DashboardSidebar({
         <nav className="flex flex-grow flex-col justify-between gap-6 p-4">
           {filterItems.map((item) => (
             <Button
-              key={item.filter}
-              variant={activeFilter === item.filter ? "primary" : "ghost"}
-              size="lg"
-              icon={item.icon}
-              text={isOpen ? item.label : undefined}
               className={`
                  flex w-full items-center justify-center gap-4 p-2 md:justify-start
                  
                 ${activeFilter === item.filter ? "bg-secondary text-white" : "text-secondary hover:text-secondary/50 "}
               `}
-              onClick={() => handleFilterChange(item.filter)}
+              icon={item.icon}
+              key={item.filter}
+              onClick={() => {
+                handleFilterChange(item.filter);
+              }}
+              size="lg"
+              text={isOpen ? item.label : undefined}
+              variant={activeFilter === item.filter ? "primary" : "ghost"}
             />
           ))}
         </nav>
 
         <Button
-          text={isOpen ? "Sign out" : undefined}
-          variant="ghost"
           className="text-danger hover:text-danger/50 absolute bottom-4 right-4 w-full md:text-xl"
           icon={<LogOut className="w=5 h=5 text-danger" />}
-          onClick={() => handleLogout()}
+          onClick={() => {
+            handleLogout();
+          }}
+          text={isOpen ? "Sign out" : undefined}
+          variant="ghost"
         />
       </div>
     </>

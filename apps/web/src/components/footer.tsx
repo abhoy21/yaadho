@@ -1,7 +1,14 @@
-import { Calendar, ChevronRight, Clock, Flag, HelpCircle } from "lucide-react";
+import {
+  Calendar,
+  ChevronRight,
+  Clock,
+  Flag,
+  HelpCircle,
+  Link,
+} from "lucide-react";
 import Logo from "./logo";
 
-export default function Footer() {
+export default function Footer(): React.JSX.Element {
   return (
     <footer className="net-pattern mx-4 mt-8 rounded-xl pb-8 pt-12 md:mx-24 md:pb-12 md:pt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -25,36 +32,36 @@ export default function Footer() {
                 <h4 className="mb-4 font-medium">Company</h4>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       About Us
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Contact
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       What&apos;s New
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Careers
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -64,36 +71,36 @@ export default function Footer() {
                 <h4 className="mb-4 font-medium">Product</h4>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Features
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Solutions
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Integrations
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       className="text-sm text-gray-500 hover:text-gray-900"
+                      href="#"
                     >
                       Price
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -131,12 +138,18 @@ export default function Footer() {
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-gray-200 pt-8 md:mt-12 md:flex-row md:gap-0">
           <p className="text-sm text-gray-500">© 2024. All rights reserved.</p>
           <div className="flex gap-4 md:gap-6">
-            <a href="#" className="text-sm text-gray-500 hover:text-gray-900">
+            <Link
+              className="text-sm text-gray-500 hover:text-gray-900"
+              href="#"
+            >
               Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-gray-500 hover:text-gray-900">
+            </Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-gray-900"
+              href="#"
+            >
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>

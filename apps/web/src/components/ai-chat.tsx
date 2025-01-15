@@ -1,8 +1,9 @@
 import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { MessageCircle, Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface AiModalProps {
   setAiModal: (value: boolean) => void;
@@ -13,35 +14,37 @@ interface Message {
   content: string;
 }
 
-const formatAIContent = (content: string) => {
+const formatAIContent = (content: string): React.ReactNode => {
   if (content.includes("**")) {
-    const parts = content.split(/\*\*(.*?)\*\*/);
+    const parts = content.split(/\*\*(?<content>.*?)\*\*/);
+
     return parts.map((part: string, index: number) => {
       if (index % 2 === 1) {
         return (
-          <div key={index} className="mb-4">
+          <div className="mb-4" key={index}>
             <h2 className="mb-2 text-2xl font-bold">{part}</h2>
           </div>
         );
-      } else {
-        return part.split("\n").map(
-          (line: string, lineIndex: number) =>
-            line.trim() && (
-              <p
-                key={`${index}-${lineIndex}`}
-                className="mb-3 text-base leading-relaxed"
-              >
-                {line}
-              </p>
-            ),
-        );
       }
+      return part.split("\n").map(
+        (line: string, lineIndex: number) =>
+          line.trim() && (
+            <p
+              className="mb-3 text-base leading-relaxed"
+              key={`${index}-${lineIndex}`}
+            >
+              {line}
+            </p>
+          ),
+      );
     });
   }
   return <p className="text-base leading-relaxed">{content}</p>;
 };
 
-export default function AiModal({ setAiModal }: AiModalProps) {
+export default function AiModal({
+  setAiModal,
+}: AiModalProps): React.JSX.Element {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -53,7 +56,7 @@ export default function AiModal({ setAiModal }: AiModalProps) {
   const [inputValue, setInputValue] = useState("");
   const messageEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (): void => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -61,7 +64,7 @@ export default function AiModal({ setAiModal }: AiModalProps) {
     scrollToBottom();
   }, [messages]);
 
-  const handleAiMessage = async () => {
+  const handleAiMessage = useCallback(async () => {
     if (!inputValue.trim() || loading) return;
     try {
       setLoading(true);
@@ -74,9 +77,12 @@ export default function AiModal({ setAiModal }: AiModalProps) {
 
       setMessages((prev) => [...prev, newUserMessage]);
 
-      const response = await axios.post("/api/gpt-ai", {
-        userQuery: userMessage,
-      });
+      const response: AxiosResponse<{ response: string }> = await axios.post(
+        "/api/gpt-ai",
+        {
+          userQuery: userMessage,
+        },
+      );
 
       if (response.data.response) {
         const newAiMessage: Message = {
@@ -87,7 +93,6 @@ export default function AiModal({ setAiModal }: AiModalProps) {
         setMessages((prev) => [...prev, newAiMessage]);
       }
     } catch (error) {
-      console.error("Error sending message:", error);
       setMessages((prev) => [
         ...prev,
         {
@@ -98,17 +103,19 @@ export default function AiModal({ setAiModal }: AiModalProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [inputValue, loading]);
 
   return (
     <Modal
-      isOpen={true}
-      onClose={() => setAiModal(false)}
       className="font-montserrat max-w-5xl rounded-3xl"
+      isOpen
+      onClose={() => {
+        setAiModal(false);
+      }}
     >
       <Modal.Header
-        showClose
         className="border-primary/20 from-primary/20 to-secondary/20 rounded-t-3xl border-b bg-gradient-to-r p-4"
+        showClose
       >
         <div className="flex items-center gap-2">
           <MessageCircle className="text-backround h-6 w-6" />
@@ -122,8 +129,8 @@ export default function AiModal({ setAiModal }: AiModalProps) {
         <div className="space-y-6">
           {messages.map((message, index) => (
             <div
-              key={index}
               className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+              key={index}
             >
               <div
                 className={`max-w-[80%] rounded-2xl px-6 py-4 shadow-lg transition-all duration-200 hover:shadow-xl ${
@@ -144,7 +151,7 @@ export default function AiModal({ setAiModal }: AiModalProps) {
               </div>
             </div>
           ))}
-          {loading && (
+          {loading ? (
             <div className="flex justify-start">
               <div className="bg-secondary/5 max-w-[80%] rounded-2xl px-6 py-4 shadow-lg">
                 <div className="flex items-center gap-2">
@@ -154,7 +161,7 @@ export default function AiModal({ setAiModal }: AiModalProps) {
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
           <div ref={messageEndRef} />
         </div>
       </Modal.Content>
@@ -162,9 +169,6 @@ export default function AiModal({ setAiModal }: AiModalProps) {
       <Modal.Footer className="border-primary/20 from-primary/20 to-secondary/20 rounded-b-3xl border-b bg-gradient-to-r p-4">
         <div className="w-full">
           <Input
-            type="text"
-            placeholder="Type your message..."
-            value={inputValue}
             Icon={
               <Send
                 className={`h-5 w-5 transition-all duration-200 ${
@@ -175,15 +179,20 @@ export default function AiModal({ setAiModal }: AiModalProps) {
                 onClick={handleAiMessage}
               />
             }
-            onChange={(e) => setInputValue(e.target.value)}
+            className="py-2 text-lg shadow-lg transition-all duration-200 focus-within:shadow-xl md:py-6"
             disabled={loading}
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                handleAiMessage();
+                await handleAiMessage();
               }
             }}
-            className="py-2 text-lg shadow-lg transition-all duration-200 focus-within:shadow-xl md:py-6"
+            placeholder="Type your message..."
+            type="text"
+            value={inputValue}
           />
         </div>
       </Modal.Footer>

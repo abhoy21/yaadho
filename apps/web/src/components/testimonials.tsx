@@ -1,7 +1,7 @@
 import { Ribbon, Youtube } from "lucide-react";
 import Image from "next/image";
 
-export default function Testimonials() {
+export default function Testimonials(): React.JSX.Element {
   return (
     <div className="my-12 py-8 md:my-24 md:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,11 +28,11 @@ export default function Testimonials() {
                 <div className="mb-4 flex items-start md:mb-0">
                   <div className="mr-4">
                     <Image
-                      src="/avatar1.jpeg"
                       alt="avatar"
-                      width={48}
-                      height={48}
                       className="rounded-full"
+                      height={48}
+                      src="/avatar1.jpeg"
+                      width={48}
                     />
                   </div>
                   <div className="flex flex-col gap-1 md:gap-2">
@@ -55,11 +55,11 @@ export default function Testimonials() {
                 <div className="mb-2 flex items-center md:mb-6">
                   <div className="mr-4">
                     <Image
-                      src="/avatar7.jpeg"
                       alt="avatar"
-                      width={48}
-                      height={48}
                       className="rounded-full"
+                      height={48}
+                      src="/avatar7.jpeg"
+                      width={48}
                     />
                   </div>
                   <div className="flex flex-col gap-1 md:gap-2">
@@ -86,11 +86,11 @@ export default function Testimonials() {
                   <div className="flex items-center">
                     <div className="mr-4">
                       <Image
-                        src="/avatar3.jpeg"
                         alt="avatar"
-                        width={48}
-                        height={48}
                         className="rounded-full"
+                        height={48}
+                        src="/avatar3.jpeg"
+                        width={48}
                       />
                     </div>
                     <div className="flex flex-col gap-1 md:gap-2">
@@ -113,11 +113,11 @@ export default function Testimonials() {
                   <div className="flex items-center">
                     <div className="mr-4">
                       <Image
-                        src="/avatar6.jpeg"
                         alt="avatar"
-                        width={48}
-                        height={48}
                         className="rounded-full"
+                        height={48}
+                        src="/avatar6.jpeg"
+                        width={48}
                       />
                     </div>
                     <div className="flex flex-col gap-1 md:gap-2">
@@ -142,11 +142,11 @@ export default function Testimonials() {
                   <div className="flex items-start">
                     <div className="mr-4">
                       <Image
-                        src="/avatar5.jpeg"
                         alt="avatar"
-                        width={48}
-                        height={48}
                         className="rounded-full"
+                        height={48}
+                        src="/avatar5.jpeg"
+                        width={48}
                       />
                     </div>
                     <div className="flex flex-col gap-1 md:gap-2">
@@ -162,11 +162,11 @@ export default function Testimonials() {
 
                 <div className="relative flex h-[400px] w-full flex-col gap-8 rounded-xl bg-white shadow-lg md:h-auto md:gap-60">
                   <Image
-                    src="/testimonial.jpeg"
                     alt="testimonial"
-                    fill
                     className="z-0 rounded-xl object-cover"
+                    fill
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    src="/testimonial.jpeg"
                   />
 
                   <div className="absolute bottom-4 left-4 z-10 flex h-10 w-2/3 items-center justify-center rounded-xl bg-white/25 p-4 backdrop-blur-md md:w-1/2">

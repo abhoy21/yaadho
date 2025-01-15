@@ -1,13 +1,15 @@
 "use client";
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useToast } from "../../hooks/use-toast";
+import { ContentFilter } from "../../types/content-filter-types";
 import CardDisplay from "./card-display";
-import { CardSkeleton } from "./card-skeleton";
-import { ContentFilter } from "./dashboard-sidebar";
+import CardSkeleton from "./card-skeleton";
 
 enum ContentType {
-  text = "text",
-  link = "link",
+  Text = "text",
+  Link = "link",
 }
 
 interface ContentData {
@@ -28,25 +30,28 @@ interface ContentFilterProps {
 export default function CardSection({
   activeFilter,
   searchTerm,
-}: ContentFilterProps) {
+}: ContentFilterProps): React.JSX.Element {
   const [cardData, setCardData] = useState<ContentData[]>([]);
   const [loading, setLoading] = useState(false);
+  const { showToast, ToastContainer } = useToast();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         setLoading(true);
-        const response = await axios.get("api/v1/get-contents");
+        const response: AxiosResponse<ContentData[]> = await axios.get(
+          "api/v1/get-contents",
+        );
         setCardData(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        showToast("Error fetching data", "error");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    void fetchData();
+  }, [cardData, showToast]);
 
   const filteredData = cardData.filter((item) => {
     if (activeFilter === ContentFilter.ALL) return true;
@@ -77,21 +82,25 @@ export default function CardSection({
 
   return (
     <div className="net-pattern mx-auto max-w-7xl px-4 sm:px-6 md:max-w-[1500px] lg:px-8">
+      <ToastContainer />
       <div className="hide-scrollbar mx-auto h-screen overflow-y-auto">
         <h1 className="mb-6 text-2xl font-semibold text-[#2D2D2D] md:text-4xl">
           Dashboard
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {loading
-            ? [...Array(12)].map((_, index) => <CardSkeleton key={index} />)
-            : displayData.map((item, index) => (
+            ? Array.from({ length: 12 }, (_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : displayData.map((item) => (
                 <CardDisplay
-                  id={item.id} // Use item.id for a unique key
-                  title={item.title}
                   content={item.content}
-                  tags={item.tags}
-                  isPublic={item.isPublic}
                   createdAt={item.createdAt}
+                  id={item.id}
+                  isPublic={item.isPublic}
+                  key={item.id}
+                  tags={item.tags}
+                  title={item.title}
                 />
               ))}
         </div>

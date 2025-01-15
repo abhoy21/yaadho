@@ -1,8 +1,13 @@
 import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react";
-import React, { useCallback, useState } from "react";
-import { cn } from "../../utils/cn";
+import { createElement, useCallback, useState } from "react";
+import { cn } from "../utils/cn";
 
 export type ToastType = "success" | "error" | "info" | "warning";
+
+interface UseToastType {
+  showToast: (message: string, type: ToastType) => void;
+  ToastContainer: () => React.JSX.Element;
+}
 
 interface ToastState {
   message: string;
@@ -31,15 +36,15 @@ const iconStyles = {
   warning: "text-yellow-600",
 };
 
-export const useToast = () => {
+export const useToast = (): UseToastType => {
   const [toasts, setToasts] = useState<ToastState[]>([]);
 
-  const removeToast = useCallback((id: number) => {
+  const removeToast = useCallback((id: number): void => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
   const showToast = useCallback(
-    (message: string, type: ToastType) => {
+    (message: string, type: ToastType): void => {
       const id = Date.now();
       setToasts((prev) => [...prev, { message, type, id }]);
 
@@ -49,26 +54,27 @@ export const useToast = () => {
     },
     [removeToast],
   );
-
-  const ToastContainer = () => (
-    <>
-      {toasts.map(({ message, type, id }) => (
-        <div
-          key={id}
-          className={cn(
-            "animate-slide-in fixed right-4 top-4 z-[9999] flex transform items-center gap-2 rounded-lg border px-4 py-3 shadow-lg transition-all duration-500 ease-in-out",
-            toastStyles[type],
-          )}
-          role="alert"
-        >
-          {React.createElement(icons[type], {
-            className: cn("w-5 h-5 md:w-12 md:h-12", iconStyles[type]),
-          })}
-          <p className="text-sm font-medium md:text-lg">{message}</p>
-        </div>
-      ))}
-    </>
-  );
+  function ToastContainer(): React.JSX.Element {
+    return (
+      <>
+        {toasts.map(({ message, type, id }) => (
+          <div
+            className={cn(
+              "animate-slide-in fixed right-4 top-4 z-[9999] flex transform items-center gap-2 rounded-lg border px-4 py-3 shadow-lg transition-all duration-500 ease-in-out",
+              toastStyles[type],
+            )}
+            key={id}
+            role="alert"
+          >
+            {createElement(icons[type], {
+              className: cn("w-5 h-5 md:w-12 md:h-12", iconStyles[type]),
+            })}
+            <p className="text-sm font-medium md:text-lg">{message}</p>
+          </div>
+        ))}
+      </>
+    );
+  }
 
   return {
     showToast,

@@ -3,7 +3,7 @@ import { Check, CirclePlay } from "lucide-react";
 import Image from "next/image";
 import Logo from "./logo";
 
-export default function Hero() {
+export default function Hero(): React.JSX.Element {
   return (
     <div className="relative min-h-screen overflow-hidden py-32">
       <div className="net-pattern absolute inset-0">
@@ -11,11 +11,11 @@ export default function Hero() {
           {/* Sticky Notes */}
           <div className="absolute left-[265px] top-[65px] z-20">
             <Image
-              src="/pin.png"
               alt="user"
-              width={48}
-              height={48}
               className="drop-shadow-lg"
+              height={48}
+              src="/pin.png"
+              width={48}
             />
           </div>
           <div className="relative -left-[25px] top-[75px] mb-4 p-4 md:absolute md:-left-[150px] md:top-[100px] md:mb-0 md:p-0">
@@ -77,7 +77,7 @@ export default function Hero() {
               </div>
 
               <div className="absolute -right-10 top-[125px]">
-                <div className="flex h-32 w-32 -rotate-12 transform items-center justify-center rounded-xl bg-opacity-50 shadow-xl backdrop-blur-md"></div>
+                <div className="flex h-32 w-32 -rotate-12 transform items-center justify-center rounded-xl bg-opacity-50 shadow-xl backdrop-blur-md" />
               </div>
 
               <div className="space-y-3">
@@ -112,11 +112,11 @@ export default function Hero() {
               </p>
               <div className="absolute left-0 right-0 flex items-center justify-center">
                 <Button
-                  variant="primary"
+                  className="hover:bg-secondary py-4 pr-4"
+                  icon={<CirclePlay className="ml-4 h-6 w-6 text-white" />}
                   size="lg"
                   text="Get Demo"
-                  icon={<CirclePlay className="ml-4 h-6 w-6 text-white" />}
-                  className="hover:bg-secondary py-4 pr-4"
+                  variant="primary"
                 />
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function Hero() {
           {/* Task Card */}
           <div className="absolute left-[15px] top-[550px] hidden -rotate-6 transform md:block">
             <div className="absolute -right-10 -top-[45px]">
-              <div className="flex h-32 w-32 rotate-12 transform items-center justify-center rounded-xl bg-opacity-25 shadow-xl backdrop-blur-md"></div>
+              <div className="flex h-32 w-32 rotate-12 transform items-center justify-center rounded-xl bg-opacity-25 shadow-xl backdrop-blur-md" />
             </div>
             <div
               className="shadow-[6px -6px 10px rgba(0, 0, 0, 1)] absolute -top-[24px] left-0 z-50 h-10 w-40 rounded-t-lg bg-blue-100"
@@ -158,18 +158,18 @@ export default function Hero() {
                     <div className="flex items-center gap-2">
                       <div className="flex -space-x-3">
                         <Image
-                          src="/person1.jpg"
                           alt="user"
-                          width={24}
-                          height={24}
                           className="rounded-full border-2 border-white shadow-sm"
+                          height={24}
+                          src="/person1.jpg"
+                          width={24}
                         />
                         <Image
-                          src="/person2.jpg"
                           alt="user"
-                          width={24}
-                          height={24}
                           className="rounded-full border-2 border-white shadow-sm"
+                          height={24}
+                          src="/person2.jpg"
+                          width={24}
                         />
                       </div>
                       <span className="text-sm text-gray-500">60%</span>
@@ -191,18 +191,18 @@ export default function Hero() {
                     <div className="flex items-center gap-2">
                       <div className="flex -space-x-3">
                         <Image
-                          src="/person1.jpg"
                           alt="user"
-                          width={24}
-                          height={24}
                           className="rounded-full border-2 border-white shadow-sm"
+                          height={24}
+                          src="/person1.jpg"
+                          width={24}
                         />
                         <Image
-                          src="/person2.jpg"
                           alt="user"
-                          width={24}
-                          height={24}
                           className="rounded-full border-2 border-white shadow-sm"
+                          height={24}
+                          src="/person2.jpg"
+                          width={24}
                         />
                       </div>
                       <span className="text-sm text-gray-500">25%</span>
@@ -231,25 +231,25 @@ export default function Hero() {
               <div className="my-12 flex items-center justify-center gap-2">
                 <div className="flex -space-x-2">
                   <Image
-                    src="/gmail.jpg"
                     alt="user"
-                    width={72}
-                    height={72}
                     className="z-0 -rotate-12 transform rounded-2xl border-2 border-white shadow-md"
+                    height={72}
+                    src="/gmail.jpg"
+                    width={72}
                   />
                   <Image
-                    src="/Meta.jpg"
                     alt="user"
-                    width={72}
-                    height={72}
                     className="z-10 -translate-y-4 rounded-2xl border-2 border-white shadow-md"
+                    height={72}
+                    src="/Meta.jpg"
+                    width={72}
                   />
                   <Image
-                    src="/netflix.jpg"
                     alt="user"
-                    width={72}
-                    height={72}
                     className="z-0 rotate-12 transform rounded-2xl border-2 border-white shadow-md"
+                    height={72}
+                    src="/netflix.jpg"
+                    width={72}
                   />
                 </div>
               </div>

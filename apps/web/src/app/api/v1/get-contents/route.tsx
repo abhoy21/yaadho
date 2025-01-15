@@ -1,8 +1,9 @@
 import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
 
@@ -12,39 +13,36 @@ export async function GET(req: NextRequest) {
 
     const content = await prisma.content.findMany({
       where: {
-        userId: token?.userId,
+        userId: token.userId,
       },
     });
 
     const tags = await prisma.tag.findMany({
       where: {
         contentId: {
-          in: content.map((content) => content.id),
+          in: content.map((c) => c.id),
         },
       },
     });
 
-    const tagsList = tags.reduce<Record<number, string[]>>(
-      (acc, tag) => {
-        if (!acc[tag.contentId]) {
-          acc[tag.contentId] = [];
-        }
-        acc[tag.contentId].push(tag.name);
-        return acc;
-      },
-      {} as Record<number, string[]>,
-    );
+    const tagsList = tags.reduce<Record<number, string[]>>((acc, tag) => {
+      const contentId = tag.contentId;
+      if (!(contentId in acc)) {
+        acc[contentId] = [];
+      }
+      acc[contentId].push(tag.name);
+      return acc;
+    }, {});
 
-    const contents = content.map((content) => {
+    const contents = content.map((c) => {
       return {
-        ...content,
-        tags: tagsList[content.id] || [],
+        ...c,
+        tags: tagsList[c.id],
       };
     });
 
     return NextResponse.json(contents, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error getting contents" },
       { status: 500 },

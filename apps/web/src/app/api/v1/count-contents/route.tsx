@@ -1,8 +1,9 @@
 import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
 
@@ -12,20 +13,20 @@ export async function GET(req: NextRequest) {
 
     const totalCount = await prisma.content.count({
       where: {
-        userId: token?.userId,
+        userId: token.userId,
       },
     });
 
     const publicCount = await prisma.content.count({
       where: {
-        userId: token?.userId,
+        userId: token.userId,
         isPublic: true,
       },
     });
 
     const privateCount = await prisma.content.count({
       where: {
-        userId: token?.userId,
+        userId: token.userId,
         isPublic: false,
       },
     });
@@ -41,7 +42,6 @@ export async function GET(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error getting contents" },
       { status: 500 },

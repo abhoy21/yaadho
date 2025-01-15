@@ -24,7 +24,7 @@ export function Button({
   rightIcon,
   children,
   ...props
-}: ButtonProps): JSX.Element {
+}: ButtonProps): React.JSX.Element {
   const baseStyles =
     "rounded-lg transition-all duration-200 flex items-center justify-center gap-2";
 

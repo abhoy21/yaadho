@@ -1,8 +1,9 @@
 import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
 
@@ -10,21 +11,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, isPublic } = await req.json();
+    const { id, isPublic } = (await req.json()) as {
+      id: number;
+      isPublic: boolean;
+    };
 
     const response = await prisma.content.update({
       where: {
-        id: id,
-        userId: token?.userId,
+        id,
+        userId: token.userId,
       },
       data: {
-        isPublic: isPublic,
+        isPublic,
       },
     });
 
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error updating content status" },
       { status: 500 },

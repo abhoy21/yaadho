@@ -1,15 +1,17 @@
+import type { Content } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { addContentSchema } from "../../../../lib/zod-schema";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
     if (!token) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    const body = await req.json();
+    const body: Content = (await req.json()) as Content;
     const validation = addContentSchema.safeParse(body);
     if (!validation.success) {
       const errors = validation.error.errors;
@@ -31,10 +33,10 @@ export async function POST(req: NextRequest) {
         },
         user: {
           connect: {
-            id: token?.userId,
+            id: token.userId,
           },
         },
-        isPublic: isPublic ?? true,
+        isPublic,
       },
       select: {
         id: true,
@@ -51,7 +53,6 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Error creating content" },
       { status: 500 },

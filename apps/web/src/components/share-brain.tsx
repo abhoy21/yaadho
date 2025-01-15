@@ -1,65 +1,75 @@
 "use client";
 
-import { Button } from "@repo/ui/button"; // Ensure you import your Button component
-import Input from "@repo/ui/input"; // Ensure you import your Input component
-import { Modal } from "@repo/ui/modal"; // Ensure you import your Modal component
+import { Button } from "@repo/ui/button";
+import Input from "@repo/ui/input";
+import { Modal } from "@repo/ui/modal";
 import axios from "axios";
-import { BadgeInfoIcon, Check, Copy, X } from "lucide-react"; // Import the close icon
+import { BadgeInfoIcon, Check, Copy, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import Logo from "./logo"; // Ensure you import your Logo component
+import { useToast } from "../../hooks/use-toast";
+import Logo from "./logo";
 
-export const ShareBrainModal = ({
+interface ShareBrainResponse {
+  brain: {
+    hash: string;
+  };
+}
+
+export function ShareBrainModal({
   setIsModalOpen,
 }: {
   setIsModalOpen: (value: boolean) => void;
-}) => {
+}): React.JSX.Element {
   const [shareLink, setShareLink] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const { showToast, ToastContainer } = useToast();
 
-  const handleModalClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleCopy = async () => {
+  const handleCopy = async (): Promise<void> => {
     if (shareLink) {
       try {
         await navigator.clipboard.writeText(shareLink);
         setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000); // Reset copied state after 2 seconds
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 2000);
       } catch (error) {
-        console.error("Failed to copy:", error);
+        showToast("Error copying link", "error");
       }
     }
   };
 
   useEffect(() => {
-    const fetchShareLink = async () => {
+    const fetchShareLink = async (): Promise<void> => {
       setLoading(true);
       try {
-        const response = await axios.post("api/v1/share-brain", {
-          share: true,
-        });
+        const response = await axios.post<ShareBrainResponse>(
+          "api/v1/share-brain",
+          {
+            share: true,
+          },
+        );
         const hash = response.data.brain.hash;
         setShareLink(`${window.location.origin}/dashboard/${hash}`);
       } catch (error) {
-        console.log(error);
+        showToast("Error sharing Link", "error");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchShareLink();
-  }, []);
+    void fetchShareLink();
+  }, [showToast]);
 
   return (
     <Modal
-      isOpen={true}
-      onClose={() => setIsModalOpen(false)}
       className="w-full max-w-md p-6"
+      isOpen
+      onClose={() => {
+        setIsModalOpen(false);
+      }}
     >
+      <ToastContainer />
       <div className="mb-6 flex flex-col items-center">
         <div className="mb-4 flex h-16 px-4">
           <Logo />
@@ -87,52 +97,52 @@ export const ShareBrainModal = ({
           </div>
         ) : (
           <Input
+            inputClassName="overflow-hidden whitespace-nowrap text-ellipsis"
+            placeholder="Shareable link"
+            readOnly
             type="text"
             value={shareLink}
-            readOnly
-            placeholder="Shareable link"
-            inputClassName="overflow-hidden whitespace-nowrap text-ellipsis"
           />
         )}
-        <button
-          onClick={handleCopy}
-          className="ml-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+        <Button
           aria-label="Copy link"
-        >
-          {isCopied ? (
-            <Check className="h-6 w-6" />
-          ) : (
-            <Copy className="h-6 w-6" />
-          )}
-        </button>
+          className="ml-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+          icon={isCopied ? <Check className="h-5 w-5" /> : <Copy />}
+          onClick={handleCopy}
+          size="icon"
+          variant="ghost"
+        />
       </div>
 
       {/* Share Options */}
       <div className="flex justify-center gap-4">
         <Button
-          onClick={handleCopy}
-          variant="primary"
-          text="Copy Link"
-          size="lg"
           className="hover:scale-105 focus:outline-none"
+          onClick={handleCopy}
+          size="lg"
+          text="Copy Link"
+          variant="primary"
         />
         <Button
-          onClick={() => setIsModalOpen(false)}
-          variant="danger"
-          text="Cancel"
-          size="lg"
           className="bg-red-300 text-red-700 hover:scale-105 focus:outline-none"
+          onClick={() => {
+            setIsModalOpen(false);
+          }}
+          size="lg"
+          text="Cancel"
+          variant="danger"
         />
       </div>
 
       {/* Close Icon Button */}
-      <button
-        onClick={() => setIsModalOpen(false)}
-        className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+      <Button
         aria-label="Close modal"
-      >
-        <X className="h-5 w-5" />
-      </button>
+        className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+        icon={<X className="h-5 w-5" />}
+        onClick={() => {
+          setIsModalOpen(false);
+        }}
+      />
     </Modal>
   );
-};
+}

@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-export default function Features() {
+export default function Features(): React.JSX.Element {
   return (
     <div className="my-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -72,11 +72,11 @@ export default function Features() {
               }}
             >
               <Image
-                src="/dashboard_preview.png"
                 alt="Dashboard Preview"
+                className="object-cover"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                src="/dashboard_preview.png"
               />
             </div>
 
@@ -107,10 +107,10 @@ export default function Features() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 ">
             <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md sm:col-span-2 lg:col-span-3">
               <Image
-                src="/dashboard_preview.png"
                 alt="dashboard"
-                fill
                 className="h-auto w-full object-cover"
+                fill
+                src="/dashboard_preview.png"
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
                 <h4 className="mb-2 text-2xl font-semibold">
@@ -125,11 +125,11 @@ export default function Features() {
 
             <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md">
               <Image
-                src="/dashboard_preview2.png"
                 alt="dashboard"
-                width={1920}
-                height={1080}
                 className="h-auto w-full object-cover"
+                height={1080}
+                src="/dashboard_preview2.png"
+                width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
                 <h4 className="mb-2 text-2xl font-semibold">
@@ -145,11 +145,11 @@ export default function Features() {
 
             <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md">
               <Image
-                src="/dashboard_preview3.png"
                 alt="dashboard"
-                width={1920}
-                height={1080}
                 className="h-auto w-full object-cover"
+                height={1080}
+                src="/dashboard_preview3.png"
+                width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
                 <h4 className="mb-2 text-2xl font-semibold">
@@ -164,11 +164,11 @@ export default function Features() {
 
             <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md sm:col-span-2 lg:col-span-3">
               <Image
-                src="/dashboard_preview4.png"
                 alt="dashboard"
-                width={1920}
-                height={1080}
                 className="h-auto w-full object-cover"
+                height={1080}
+                src="/dashboard_preview4.png"
+                width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
                 <h4 className="mb-2 text-2xl font-semibold">

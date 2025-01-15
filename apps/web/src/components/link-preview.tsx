@@ -1,33 +1,38 @@
 import Link from "next/link";
 import { Tweet } from "react-tweet";
 
-export const LinkPreview = ({ url }: { url: string }) => {
-  const getUrlType = (url: string) => {
-    if (!url) return null;
-    if (url.includes("youtube.com") || url.includes("youtu.be"))
+export const LinkPreview = ({ url }: { url: string }): React.JSX.Element => {
+  const getUrlType = (link: string): string | null => {
+    if (!link) return null;
+    if (link.includes("youtube.com") || link.includes("youtu.be"))
       return "youtube";
-    if (url.includes("twitter.com") || url.includes("x.com")) return "twitter";
-    if (url.includes("github.com")) return "github";
-    if (url.includes("linkedin.com")) return "linkedin";
+    if (link.includes("twitter.com") || link.includes("x.com"))
+      return "twitter";
+    if (link.includes("github.com")) return "github";
+    if (link.includes("linkedin.com")) return "linkedin";
     return null;
   };
 
-  function extractYouTubeID(url: string): string {
-    if (!url || typeof url !== "string") {
+  function extractYouTubeID(urlYT: string): string {
+    if (!urlYT || typeof urlYT !== "string") {
       return "";
     }
-    const regex =
-      /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)|https?:\/\/youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
+    const regex = new RegExp(
+      /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)|https?:\/\/youtu\.be\/)(?:[a-zA-Z0-9_-]{11})/,
+    );
+
+    const match = regex.exec(url);
     return match ? match[1] : "";
   }
 
-  const extractTweetId = (url: string): string => {
-    const match = url.match(/x\.com\/(?:#!\/)?\w+\/status(?:es)?\/(\d+)/);
+  const extractTweetId = (urlTweet: string): string => {
+    const regex = new RegExp(/x\.com\/(?:#!\/)?\w+\/status(?:es)?\/(?:\d+)/);
+    const match = regex.exec(urlTweet);
+
     return match ? match[1] : "";
   };
 
-  const renderPreview = () => {
+  const renderPreview = (): React.JSX.Element => {
     const type = getUrlType(url);
 
     switch (type) {
@@ -35,11 +40,11 @@ export const LinkPreview = ({ url }: { url: string }) => {
         return (
           <div className="aspect-video w-full">
             <iframe
-              src={`https://www.youtube.com/embed/${extractYouTubeID(url)}`}
               allow="encrypted-media; picture-in-picture"
-              className="h-full w-full rounded-xl"
-              title="YouTube video player"
               allowFullScreen
+              className="h-full w-full rounded-xl"
+              src={`https://www.youtube.com/embed/${extractYouTubeID(url)}`}
+              title="YouTube video player"
             />
           </div>
         );
@@ -57,10 +62,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
         return (
           <div className="rounded-xl border bg-white/50 p-4 backdrop-blur-sm transition-all duration-200 hover:bg-white/90">
             <Link
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group flex items-center justify-between"
+              href={url}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <div className="flex max-h-[500px] min-h-[155px]  items-center gap-3 overflow-hidden">
                 <svg
@@ -86,10 +91,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M9 5l7 7-7 7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </Link>
@@ -100,10 +105,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
         return (
           <div className="rounded-xl border bg-white/80 p-4 backdrop-blur-sm transition-all duration-200 hover:bg-white/90">
             <Link
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group flex items-center justify-between"
+              href={url}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <div className="flex items-center gap-3">
                 <svg
@@ -129,10 +134,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M9 5l7 7-7 7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </Link>
@@ -143,10 +148,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
         return (
           <div className="rounded-xl border bg-white/80 p-4 backdrop-blur-sm transition-all duration-200 hover:bg-white/90">
             <Link
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group flex items-center justify-between"
+              href={url}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <div className="flex items-center gap-3">
                 <svg
@@ -156,10 +161,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
                   viewBox="0 0 24 24"
                 >
                   <path
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                   />
                 </svg>
                 <div className="flex flex-col">
@@ -178,10 +183,10 @@ export const LinkPreview = ({ url }: { url: string }) => {
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M9 5l7 7-7 7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </Link>

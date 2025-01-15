@@ -1,11 +1,11 @@
 "use client";
 import { Button } from "@repo/ui/button";
 import { useState } from "react";
-import { useToast } from "../hooks/useToast";
+import { useToast } from "../../hooks/use-toast";
 import SigninModal from "./sign-in";
 import SignupModal from "./sign-up";
 
-export const SignInButton = () => {
+export function SignInButton(): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"Signup" | "Signin">("Signin");
 
@@ -14,32 +14,38 @@ export const SignInButton = () => {
   return (
     <>
       <Button
-        variant="primary"
+        className="hover:bg-secondary"
+        onClick={() => {
+          setIsOpen(true);
+        }}
         size="md"
         text="Sign In"
-        className="hover:bg-secondary"
-        onClick={() => setIsOpen(true)}
+        variant="primary"
       />
 
-      {isOpen && (
+      {isOpen ? (
         <>
           {authMode === "Signin" ? (
             <SigninModal
+              ToastContainer={ToastContainer}
+              setAuthMode={() => {
+                setAuthMode("Signup");
+              }}
               setIsOpen={setIsOpen}
               showToast={showToast}
-              ToastContainer={ToastContainer}
-              setAuthMode={() => setAuthMode("Signup")}
             />
           ) : (
             <SignupModal
+              ToastContainer={ToastContainer}
+              setAuthMode={() => {
+                setAuthMode("Signup");
+              }}
               setIsOpen={setIsOpen}
               showToast={showToast}
-              ToastContainer={ToastContainer}
-              setAuthMode={() => setAuthMode("Signup")}
             />
           )}
         </>
-      )}
+      ) : null}
     </>
   );
-};
+}

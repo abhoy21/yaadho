@@ -1,9 +1,9 @@
 import { Button } from "@repo/ui/button";
 import Link from "next/link";
 import Logo from "./logo";
-import { SignInButton } from "./signIn-button";
+import { SignInButton } from "./sign-in-button";
 
-export default function Navbar() {
+export default function Navbar(): React.JSX.Element {
   return (
     <nav className="sticky left-0 right-0 top-0 z-50 mx-auto max-w-7xl rounded-lg bg-white/30 px-4 shadow-md backdrop-blur-md sm:px-6 lg:px-8">
       <div className="flex h-16 items-center justify-between">
@@ -11,26 +11,26 @@ export default function Navbar() {
 
         <div className="hidden items-center space-x-8 md:flex">
           <Link
-            href="/home"
             className="text-sm text-black duration-300 ease-in-out hover:text-gray-700"
+            href="/home"
           >
             Features
           </Link>
           <Link
-            href="/home"
             className="text-sm text-black duration-300 ease-in-out hover:text-gray-700"
+            href="/home"
           >
             Solutions
           </Link>
           <Link
-            href="/home"
             className="text-sm text-black duration-300 ease-in-out hover:text-gray-700"
+            href="/home"
           >
             Pricing
           </Link>
           <Link
-            href="/home"
             className="text-sm text-black duration-300 ease-in-out hover:text-gray-700"
+            href="/home"
           >
             About
           </Link>
@@ -40,10 +40,10 @@ export default function Navbar() {
           <SignInButton />
 
           <Button
-            variant="outline"
+            className="hover:bg-primary/45"
             size="md"
             text="Get Demo"
-            className="hover:bg-primary/45"
+            variant="outline"
           />
         </div>
       </div>

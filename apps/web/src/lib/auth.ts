@@ -1,11 +1,17 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from "bcrypt";
-import { NextAuthOptions } from "next-auth";
+import { compare, hash } from "bcrypt";
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { generatePassword } from "./generate-password";
 import { prisma } from "./prisma";
+
+type AuthorizeResponse = {
+  id: number;
+  email: string;
+  username: string;
+} | null;
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -21,9 +27,9 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Password",
         },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(credentials): Promise<AuthorizeResponse> {
         try {
-          if (!credentials.email || !credentials.password) {
+          if (!credentials?.email || !credentials.password) {
             throw new Error("Invalid credentials");
           }
 
@@ -37,7 +43,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error("No user found with that email");
           }
 
-          const validPassword = await bcrypt.compare(
+          const validPassword = await compare(
             credentials.password,
             existingUser.password,
           );
@@ -51,15 +57,18 @@ export const authOptions: NextAuthOptions = {
             email: existingUser.email,
             username: existingUser.username,
           };
-        } catch (error: any) {
-          throw new Error(error.message);
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+          throw new Error("Authentication failed");
         }
       },
     }),
 
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
       authorization: {
         params: {
           prompt: "select_account",
@@ -68,23 +77,22 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    jwt({ token, user }) {
+      if (user.id && user.username) {
         token.userId = Number(user.id);
         token.username = user.username;
       }
-
       return token;
     },
 
-    async session({ session, token }) {
-      if (token) {
+    session({ session, token }) {
+      if (token.userId && token.username) {
         session.user.id = token.userId;
         session.user.username = token.username;
       }
@@ -96,7 +104,7 @@ export const authOptions: NextAuthOptions = {
         if (account?.provider === "github" || account?.provider === "google") {
           const existingUser = await prisma.user.findUnique({
             where: {
-              email: user.email,
+              email: user.email ?? "",
             },
             include: {
               accounts: true,
@@ -108,10 +116,10 @@ export const authOptions: NextAuthOptions = {
 
             const password = generatePassword({
               email: user.email,
-              name: user.name as string,
+              name: user.name ?? username,
             });
 
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = await hash(password, 10);
 
             const newUser = await prisma.user.create({
               data: {
@@ -119,12 +127,12 @@ export const authOptions: NextAuthOptions = {
                 username,
                 password: hashedPassword,
               },
+              select: {
+                id: true,
+                email: true,
+                username: true,
+              },
             });
-
-            if (!newUser) {
-              console.error("Failed to create new user");
-              return false;
-            }
 
             await prisma.account.create({
               data: {
@@ -163,13 +171,10 @@ export const authOptions: NextAuthOptions = {
                 },
               });
             }
-
-            return true;
           }
         }
         return true;
       } catch (error) {
-        console.error("SignIn error:", error);
         return false;
       }
     },
@@ -179,5 +184,5 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "",
 };

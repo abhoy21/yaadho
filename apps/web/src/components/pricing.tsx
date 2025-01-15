@@ -45,7 +45,7 @@ const plans = [
   },
 ];
 
-export default function Pricing() {
+export default function Pricing(): React.JSX.Element {
   return (
     <div className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -19,7 +19,7 @@ export default function Input({
   IconOff,
   inputClassName = "",
   ...props
-}: InputProps): JSX.Element {
+}: InputProps): React.JSX.Element {
   return (
     <div className="relative">
       <input

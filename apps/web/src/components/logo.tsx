@@ -1,11 +1,11 @@
-export default function Logo() {
+export default function Logo(): React.JSX.Element {
   return (
     <div className="flex items-center">
       <div className="flex items-center gap-2">
-        <div className="w-3 h-3 md:w-5 md:h-5 bg-primary rounded-full" />
-        <div className="w-3 h-3 md:w-5 md:h-5 bg-accent rounded-full" />
+        <div className="bg-primary h-3 w-3 rounded-full md:h-5 md:w-5" />
+        <div className="bg-accent h-3 w-3 rounded-full md:h-5 md:w-5" />
       </div>
-      <span className="ml-1 md:ml-2 text-md md:text-2xl font-semibold">
+      <span className="text-md ml-1 font-semibold md:ml-2 md:text-2xl">
         Yaadho
       </span>
     </div>

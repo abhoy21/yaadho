@@ -1,8 +1,7 @@
 "use client";
+import { Card } from "@repo/ui/card";
 import { EllipsisVertical, Globe, Lock, X } from "lucide-react";
 import { useState } from "react";
-
-import { Card } from "@repo/ui/card";
 import CardOptions from "./card-options";
 import { LinkPreview } from "./link-preview";
 
@@ -22,27 +21,42 @@ export default function CardDisplay({
   tags,
   isPublic,
   createdAt,
-}: CustomCardProps) {
+}: CustomCardProps): React.JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
 
   const isValidUrl = (url: string): boolean => {
-    const regex =
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|twitter\.com|notion\.so|linkedin\.com|instagram\.com|facebook\.com|github\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+    const regex = new RegExp(
+      /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be|twitter\.com|notion\.so|linkedin\.com|instagram\.com|facebook\.com|github\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(?<path>\/[^\s]*)?$/,
+    );
+
     return regex.test(url);
   };
 
   return (
     <Card className="bg-secondary/40 backdrop-blur-md">
-      <Card.Header isPublic={isPublic} onClick={() => setModalOpen(!modalOpen)}>
-        <Card.Tags tags={tags} className="text-accent ml-4" />
+      <Card.Header
+        isPublic={isPublic}
+        onClick={() => {
+          setModalOpen(!modalOpen);
+        }}
+      >
+        <Card.Tags className="text-accent ml-4" tags={tags} />
 
         <div className="sm:text-md text-accent mt-4 text-sm font-medium lg:text-lg">
           <div
+            className="cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               setModalOpen(!modalOpen);
             }}
-            className="cursor-pointer"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation();
+                setModalOpen(!modalOpen);
+              }
+            }}
+            role="button"
+            tabIndex={0}
           >
             {!modalOpen ? (
               <EllipsisVertical />
@@ -55,14 +69,14 @@ export default function CardDisplay({
               />
             )}
 
-            {modalOpen && (
+            {modalOpen ? (
               <CardOptions
-                setModalOpen={setModalOpen}
                 cardId={id}
                 content={content}
                 isPublic={isPublic}
+                setModalOpen={setModalOpen}
               />
-            )}
+            ) : null}
           </div>
         </div>
       </Card.Header>

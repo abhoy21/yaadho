@@ -42,7 +42,7 @@ export const addContentSchema = z.object({
     .refine(
       (value) =>
         value === "" ||
-        /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|twitter\.com|notion\.so|linkedin\.com|instagram\.com|facebook\.com|github\.com|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+        /(?:https?:\/\/)(?:www\.)?(?:youtube\.com|youtu\.be|twitter\.com|...)(?:\/[^\s]*)?/,
     ),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
   isPublic: z.boolean({

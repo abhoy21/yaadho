@@ -1,17 +1,17 @@
 "use client";
 
-import { Button } from "@repo/ui/button"; // Importing the custom Button component
-import Input from "@repo/ui/input"; // Importing the prebuilt Input component
-import { Modal } from "@repo/ui/modal"; // Importing the prebuilt Modal component
+import { Button } from "@repo/ui/button";
+import Input from "@repo/ui/input";
+import { Modal } from "@repo/ui/modal";
 import axios from "axios";
 import { Globe, Lock, X } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "../hooks/useToast";
+import { useToast } from "../../hooks/use-toast";
 import { addContentSchema } from "../lib/zod-schema";
 
 enum ContentType {
-  link = "link",
-  text = "text",
+  Link = "link",
+  Text = "text",
 }
 
 interface ContentData {
@@ -26,20 +26,20 @@ export default function AddContent({
   setIsModalOpen,
 }: {
   setIsModalOpen: (value: boolean) => void;
-}) {
+}): React.JSX.Element {
   const { showToast, ToastContainer } = useToast();
-  const [activeTab, setActiveTab] = useState<ContentType>(ContentType.link);
+  const [activeTab, setActiveTab] = useState<ContentType>(ContentType.Link);
   const [inputTags, setInputTags] = useState<string>("");
   const [contentData, setContentData] = useState<ContentData>({
     title: "",
-    type: ContentType.link,
+    type: ContentType.Link,
     content: "",
     tags: [],
     isPublic: true,
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleTagNext = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleTagNext = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Tab" || e.key === "Enter") {
       e.preventDefault();
       if (inputTags.trim()) {
@@ -61,35 +61,33 @@ export default function AddContent({
     }
   };
 
-  const handleRemoveTag = (index: number) => {
+  const handleRemoveTag = (index: number): void => {
     setContentData({
       ...contentData,
       tags: contentData.tags.filter((_, i) => i !== index),
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     const validation = addContentSchema.safeParse(contentData);
 
     if (!validation.success) {
-      validation.error.errors.forEach((error) =>
-        showToast(error.message, "error"),
-      );
+      validation.error.errors.forEach((error) => {
+        showToast(error.message, "error");
+      });
       return;
     }
 
     try {
-      const response = await axios.post("/api/v1/create-content", contentData);
-      showToast(
-        response.data.message || "Content added successfully!",
-        "success",
-      );
+      await axios.post("/api/v1/create-content", contentData);
+      showToast("Content added successfully!", "success");
       setIsModalOpen(false);
       window.location.reload();
     } catch (error) {
-      console.error(error);
       showToast("Content add failed.", "error");
     } finally {
       setLoading(false);
@@ -100,9 +98,11 @@ export default function AddContent({
     <div className="fixed inset-0 z-[9999]">
       <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
       <Modal
-        isOpen={true}
-        onClose={() => setIsModalOpen(false)}
         className="w-full max-w-md p-6 md:max-w-lg"
+        isOpen
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
       >
         <ToastContainer />
         <Modal.Header>
@@ -117,17 +117,17 @@ export default function AddContent({
         <div className="mb-4 flex justify-center gap-4">
           {Object.values(ContentType).map((type) => (
             <Button
-              key={type}
-              text={type.charAt(0).toUpperCase() + type.slice(1)}
               className={`rounded-lg px-4 py-2 text-sm font-medium ${
                 activeTab === type
                   ? "bg-primary text-background"
                   : "bg-gray-100 text-gray-800 hover:bg-gray-200"
               }`}
+              key={type}
               onClick={() => {
                 setActiveTab(type);
                 setContentData({ ...contentData, type, content: "" });
               }}
+              text={type.charAt(0).toUpperCase() + type.slice(1)}
             />
           ))}
         </div>
@@ -135,60 +135,62 @@ export default function AddContent({
         <Modal.Content>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <Input
+              onChange={(e) => {
+                setContentData({ ...contentData, title: e.target.value });
+              }}
+              placeholder="Title"
               type="text"
               value={contentData.title}
-              onChange={(e) =>
-                setContentData({ ...contentData, title: e.target.value })
-              }
-              placeholder="Title"
             />
 
-            {activeTab === ContentType.link && (
+            {activeTab === ContentType.Link && (
               <Input
+                onChange={(e) => {
+                  setContentData({ ...contentData, content: e.target.value });
+                }}
+                placeholder="Enter a link"
                 type="url"
                 value={contentData.content}
-                onChange={(e) =>
-                  setContentData({ ...contentData, content: e.target.value })
-                }
-                placeholder="Enter a link"
               />
             )}
 
-            {activeTab === ContentType.text && (
+            {activeTab === ContentType.Text && (
               <textarea
-                value={contentData.content}
-                onChange={(e) =>
-                  setContentData({ ...contentData, content: e.target.value })
-                }
-                placeholder="Write your note here..."
                 className="focus:primary w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none transition focus:ring-2 focus:ring-blue-200"
+                onChange={(e) => {
+                  setContentData({ ...contentData, content: e.target.value });
+                }}
+                placeholder="Write your note here..."
+                value={contentData.content}
               />
             )}
 
             <Input
-              type="text"
-              value={inputTags}
-              onChange={(e) => setInputTags(e.target.value)}
+              onChange={(e) => {
+                setInputTags(e.target.value);
+              }}
               onKeyDown={handleTagNext}
               placeholder="Type and press Enter to add tags..."
+              type="text"
+              value={inputTags}
             />
 
             <div className="flex flex-wrap gap-2">
               {contentData.tags.map((tag, index) => (
                 <span
-                  key={index}
                   className="text-accent bg-secondary/20 flex items-center gap-1 rounded-md px-2 py-1 text-sm backdrop-blur-md"
+                  key={tag}
                 >
                   {tag}
                   <Button
-                    variant="ghost"
-                    size="sm"
-                    icon={<X className="h-4 w-4" />}
                     className="text-red-500 hover:text-red-800"
+                    icon={<X className="h-4 w-4" />}
                     onClick={(e) => {
                       e.preventDefault();
                       handleRemoveTag(index);
                     }}
+                    size="sm"
+                    variant="ghost"
                   />
                 </span>
               ))}
@@ -206,16 +208,16 @@ export default function AddContent({
                 </span>
               </div>
               <button
-                type="button"
-                onClick={() =>
-                  setContentData({
-                    ...contentData,
-                    isPublic: !contentData.isPublic,
-                  })
-                }
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200 ${
                   contentData.isPublic ? "bg-primary" : "bg-red-600"
                 }`}
+                onClick={() => {
+                  setContentData({
+                    ...contentData,
+                    isPublic: !contentData.isPublic,
+                  });
+                }}
+                type="button"
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -227,20 +229,22 @@ export default function AddContent({
 
             <div className="flex items-center justify-center gap-2">
               <Button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                variant="danger"
                 className="hover:bg-danger w-full bg-red-300 py-3 font-semibold transition-colors duration-300 ease-in-out"
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+                type="button"
+                variant="danger"
               >
                 Cancel
               </Button>
               <Button
-                type="submit"
-                disabled={loading}
-                variant="primary"
                 className={`w-full py-3 font-semibold transition-colors duration-300 ease-in-out ${
                   loading ? "cursor-not-allowed opacity-50" : ""
                 }`}
+                disabled={loading}
+                type="submit"
+                variant="primary"
               >
                 {loading ? "Saving..." : "Save"}
               </Button>

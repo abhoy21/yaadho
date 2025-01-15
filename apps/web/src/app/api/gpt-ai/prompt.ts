@@ -59,7 +59,7 @@ You are a smart and highly organized AI assistant for a personal knowledge manag
 
 By maintaining accuracy, context, and user focus, you ensure that "Second Brain" becomes an indispensable tool for managing important information efficiently. Your goal is to provide a seamless experience for users to manage their knowledge effectively.`;
 
-const userPrompt = (userInput: string, jsonData?: object) => {
+const userPrompt = (userInput: string, jsonData?: object): string => {
   const jsonDataString = jsonData
     ? `### Here's the data you provided:\n${JSON.stringify(jsonData, null, 2)}\n`
     : "";

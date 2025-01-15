@@ -65,7 +65,7 @@ function ModalRoot({
   isOpen,
   onClose,
   className = "",
-}: ModalProps): JSX.Element | null {
+}: ModalProps): React.JSX.Element | null {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const handleEscape = useCallback(
@@ -118,7 +118,7 @@ function ModalHeader({
   children,
   className = "",
   showClose = true,
-}: ModalHeaderProps): JSX.Element {
+}: ModalHeaderProps): React.JSX.Element {
   const { onClose } = useModal();
 
   return (
@@ -153,14 +153,14 @@ function ModalHeader({
 function ModalContent({
   children,
   className = "",
-}: ModalContentProps): JSX.Element {
+}: ModalContentProps): React.JSX.Element {
   return <div className={`relative flex-1 ${className}`}>{children}</div>;
 }
 
 function ModalFooter({
   children,
   className = "",
-}: ModalFooterProps): JSX.Element {
+}: ModalFooterProps): React.JSX.Element {
   return (
     <div
       className={`mt-6 flex items-center justify-end space-x-4 ${className}`}
@@ -173,7 +173,7 @@ function ModalFooter({
 function ModalTitle({
   children,
   className = "",
-}: ModalTitleProps): JSX.Element {
+}: ModalTitleProps): React.JSX.Element {
   return (
     <h3
       className={`text-lg font-semibold leading-6 text-gray-900 ${className}`}
@@ -186,7 +186,7 @@ function ModalTitle({
 function ModalDescription({
   children,
   className = "",
-}: ModalDescriptionProps): JSX.Element {
+}: ModalDescriptionProps): React.JSX.Element {
   return (
     <div className={`mt-2 text-sm text-gray-500 ${className}`}>{children}</div>
   );
