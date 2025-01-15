@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     jwt({ token, user }) {
-      if (user.id && user.username) {
+      if (user !== null) {
         token.userId = Number(user.id);
         token.username = user.username;
       }
@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     session({ session, token }) {
-      if (token.userId && token.username) {
+      if (token !== null) {
         session.user.id = token.userId;
         session.user.username = token.username;
       }

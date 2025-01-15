@@ -49,7 +49,7 @@ export default function DashboardHeader(): React.JSX.Element {
     };
 
     void fetchCount();
-  }, [stats, showToast]);
+  }, [showToast]);
 
   return (
     <div className="mb-6 flex flex-col items-start justify-around gap-4 md:flex-row md:items-center md:gap-8">

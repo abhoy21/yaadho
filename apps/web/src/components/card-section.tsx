@@ -51,7 +51,7 @@ export default function CardSection({
     };
 
     void fetchData();
-  }, [cardData, showToast]);
+  }, [showToast]);
 
   const filteredData = cardData.filter((item) => {
     if (activeFilter === ContentFilter.ALL) return true;

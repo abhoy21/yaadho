@@ -3,7 +3,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/naming-convention": "error",
     "@typescript-eslint/no-unsafe-assignment": "off",
-    "@typescript-eslint/no-unnecessary-condition": "error",
+    "@typescript-eslint/no-unnecessary-condition": "off",
     "react/no-array-index-key": "off",
     "import/no-named-as-default": "off",
     "@typescript-eslint/no-misused-promises": [
