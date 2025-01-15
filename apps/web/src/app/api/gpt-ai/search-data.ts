@@ -1,4 +1,9 @@
+import type { Content, Tag } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
+
+type ContentWithTags = Content & {
+  tags: Pick<Tag, "name">[];
+};
 
 interface SearchResponse {
   userQuery: string;
@@ -66,7 +71,7 @@ export const searchData = async (query: string): Promise<SearchResponse> => {
   return {
     userQuery: query,
     jsonData: {
-      Content: content.map((item) => ({
+      Content: content.map((item: ContentWithTags) => ({
         id: item.id,
         title: item.title,
         type: item.type.toString(),
