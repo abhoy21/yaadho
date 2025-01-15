@@ -16,6 +16,17 @@ interface SearchResponse {
   };
 }
 
+interface ContentItem {
+  id: number;
+  title: string;
+  type: { toString: () => string };
+  userId: number;
+  isPublic: boolean;
+  createdAt: { toISOString: () => string };
+  content: string;
+  tags: { name: string }[];
+}
+
 export const searchData = async (query: string): Promise<SearchResponse> => {
   const searchTerms = query
     .toLowerCase()
@@ -66,7 +77,7 @@ export const searchData = async (query: string): Promise<SearchResponse> => {
   return {
     userQuery: query,
     jsonData: {
-      Content: content.map((item) => ({
+      Content: content.map((item: ContentItem) => ({
         id: item.id,
         title: item.title,
         type: item.type.toString(),
