@@ -13,6 +13,8 @@ interface Content {
   createdAt: Date;
 }
 
+type TagsRecord = Record<number, string[]>;
+
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
@@ -35,7 +37,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       },
     });
 
-    const tagsList = tags.reduce<Record<number, string[]>>((acc, tag) => {
+    const tagsList = tags.reduce<TagsRecord>((acc: TagsRecord, tag) => {
       const contentId = tag.contentId;
       if (!(contentId in acc)) {
         acc[contentId] = [];
