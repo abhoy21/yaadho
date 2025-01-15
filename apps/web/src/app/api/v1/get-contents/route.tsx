@@ -30,7 +30,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const tags = await prisma.tag.findMany({
       where: {
         contentId: {
-          in: content.map((c) => c.id),
+          in: content.map((c: Content) => c.id),
         },
       },
     });
