@@ -153,7 +153,7 @@ export const authOptions: NextAuthOptions = {
 
           if (existingUser) {
             const existingProviderAccount = existingUser.accounts.find(
-              (acc) => acc.provider === account.provider,
+              (acc: { provider: string }) => acc.provider === account.provider,
             );
 
             if (!existingProviderAccount) {
