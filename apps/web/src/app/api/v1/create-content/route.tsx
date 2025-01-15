@@ -1,7 +1,7 @@
-import type { Content } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import type { Content } from "../../../../../types/content-types";
 import { prisma } from "../../../../lib/prisma";
 import { addContentSchema } from "../../../../lib/zod-schema";
 
