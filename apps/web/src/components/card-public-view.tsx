@@ -24,7 +24,7 @@ interface ContentData {
 
 export default function CardSectionPublic(): React.JSX.Element {
   const [cardData, setCardData] = useState<ContentData[]>([]);
-  const [loading, setLoading] = useState(true); // Set loading to true initially
+  const [loading, setLoading] = useState(true);
   const { showToast, ToastContainer } = useToast();
   const pathName = usePathname();
   const shareLink = pathName.split("/")[2];
@@ -39,7 +39,7 @@ export default function CardSectionPublic(): React.JSX.Element {
       } catch (error) {
         showToast("Error fetching data", "error");
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
@@ -55,12 +55,10 @@ export default function CardSectionPublic(): React.JSX.Element {
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {loading
-            ? // Show loading skeletons while data is being fetched
-              Array.from({ length: 8 }).map((_, index) => (
+            ? Array.from({ length: 8 }).map((_, index) => (
                 <CardSkeleton key={index} />
               ))
-            : // Show the actual card data once loaded
-              cardData.map((item) => (
+            : cardData.map((item) => (
                 <CardDisplay
                   content={item.content}
                   createdAt={item.createdAt}
