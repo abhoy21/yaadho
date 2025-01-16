@@ -18,7 +18,7 @@ export const LinkPreview = ({ url }: { url: string }): React.JSX.Element => {
       return "";
     }
     const regex = new RegExp(
-      /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/)|https?:\/\/youtu\.be\/)(?:[a-zA-Z0-9_-]{11})/,
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
     );
 
     const match = regex.exec(url);
@@ -26,7 +26,7 @@ export const LinkPreview = ({ url }: { url: string }): React.JSX.Element => {
   }
 
   const extractTweetId = (urlTweet: string): string => {
-    const regex = new RegExp(/x\.com\/(?:#!\/)?\w+\/status(?:es)?\/(?:\d+)/);
+    const regex = new RegExp(/x\.com\/(?:#!\/)?\w+\/status(?:es)?\/(\d+)/);
     const match = regex.exec(urlTweet);
 
     return match ? match[1] : "";

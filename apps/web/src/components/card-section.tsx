@@ -81,10 +81,10 @@ export default function CardSection({
   const displayData = searchTerm ? searchedData : filteredData;
 
   return (
-    <div className="net-pattern mx-auto max-w-7xl px-4 sm:px-6 md:max-w-[1500px] lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 md:max-w-[1500px] lg:px-8">
       <ToastContainer />
       <div className="hide-scrollbar mx-auto h-screen overflow-y-auto">
-        <h1 className="mb-6 text-2xl font-semibold text-[#2D2D2D] md:text-4xl">
+        <h1 className="text-text mb-6 text-2xl font-semibold md:text-4xl">
           Dashboard
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
