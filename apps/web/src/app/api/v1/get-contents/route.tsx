@@ -22,7 +22,7 @@ type TagsRecord = Record<number, string[]>;
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const token = await getToken({ req });
-
+    console.log(token);
     if (!token) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }

@@ -1,6 +1,7 @@
 module.exports = {
   extends: ["@repo/eslint-config/next.js"],
   rules: {
+    "no-console": "off",
     "@typescript-eslint/naming-convention": "error",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unnecessary-condition": "off",
