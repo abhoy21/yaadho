@@ -21,10 +21,7 @@ type TagsRecord = Record<number, string[]>;
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+    const token = await getToken({ req });
 
     if (!token) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

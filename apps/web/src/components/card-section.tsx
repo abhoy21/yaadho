@@ -41,9 +41,6 @@ export default function CardSection({
         setLoading(true);
         const response: AxiosResponse<ContentData[]> = await axios.get(
           "api/v1/get-contents",
-          {
-            withCredentials: true,
-          },
         );
         setCardData(response.data);
       } catch (error) {

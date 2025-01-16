@@ -7,12 +7,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { generatePassword } from "./generate-password";
 import { prisma } from "./prisma";
 
-type AuthorizeResponse = {
-  id: number;
-  email: string;
-  username: string;
-} | null;
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   debug: true,
@@ -27,7 +21,7 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Password",
         },
       },
-      async authorize(credentials): Promise<AuthorizeResponse> {
+      async authorize(credentials): Promise<any> {
         try {
           if (!credentials?.email || !credentials.password) {
             throw new Error("Invalid credentials");
@@ -104,7 +98,7 @@ export const authOptions: NextAuthOptions = {
         if (account?.provider === "github" || account?.provider === "google") {
           const existingUser = await prisma.user.findUnique({
             where: {
-              email: user.email ?? "",
+              email: user.email,
             },
             include: {
               accounts: true,
@@ -116,7 +110,7 @@ export const authOptions: NextAuthOptions = {
 
             const password = generatePassword({
               email: user.email,
-              name: user.name ?? username,
+              name: username,
             });
 
             const hashedPassword = await hash(password, 10);
