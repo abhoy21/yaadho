@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@repo/ui/button";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
