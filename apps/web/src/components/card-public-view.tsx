@@ -3,7 +3,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToast } from "../../hooks/use-toast";
-import CardDisplay from "./card-display";
+import CardDisplayPublic from "./card-display-public";
 import CardSkeleton from "./card-skeleton";
 
 enum ContentType {
@@ -32,7 +32,6 @@ export default function CardSectionPublic(): React.JSX.Element {
     const fetchData = async (): Promise<void> => {
       try {
         const response = await axios.get(`/api/v1/brain/${shareLink}`);
-        console.log(response.data.content);
         setCardData(response.data.content);
       } catch (error) {
         showToast("Error fetching data", "error");
@@ -58,7 +57,7 @@ export default function CardSectionPublic(): React.JSX.Element {
               ))
             : Array.isArray(cardData) &&
               cardData.map((item) => (
-                <CardDisplay
+                <CardDisplayPublic
                   content={item.content}
                   createdAt={item.createdAt}
                   id={item.id}

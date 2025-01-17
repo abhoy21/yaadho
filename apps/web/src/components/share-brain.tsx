@@ -78,7 +78,7 @@ export function ShareBrainModal({
           Share Brain
         </h1>
         <p className="flex items-start gap-2 px-4 text-center text-sm text-gray-500">
-          <BadgeInfoIcon className="h-5 w-5 text-blue-400" />
+          <BadgeInfoIcon className="text-accent h-5 w-5" />
           Only public content will be visible to others you share your brain
           with!
         </p>
@@ -106,7 +106,7 @@ export function ShareBrainModal({
         )}
         <Button
           aria-label="Copy link"
-          className="ml-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+          className="text-primary hover:text-primary/50 ml-2 focus:outline-none"
           icon={isCopied ? <Check className="h-5 w-5" /> : <Copy />}
           onClick={handleCopy}
           size="icon"

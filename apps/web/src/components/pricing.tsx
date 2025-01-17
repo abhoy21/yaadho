@@ -18,7 +18,7 @@ const plans = [
   {
     name: "Pro plan",
     description: "Ideal for small teams.",
-    price: "$9",
+    price: "$20",
     isPopular: true,
     features: [
       "All product features",

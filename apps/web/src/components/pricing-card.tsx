@@ -20,9 +20,9 @@ export default function PricingCard({
     if (isPopular) {
       return "bg-primary z-10 transform text-white shadow-xl md:scale-105";
     } else if (price === "$15") {
-      return "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:rotate-6 md:transform";
+      return "border border-gray-200 bg-gray-50 text-primary shadow-sm md:rotate-6 md:transform";
     } else if (price === "$5") {
-      return "border border-gray-200 bg-gray-50 text-gray-900 shadow-sm md:-rotate-6 md:transform";
+      return "border border-gray-200 bg-gray-50 text-primary shadow-sm md:-rotate-6 md:transform";
     }
     return "";
   };
@@ -53,8 +53,8 @@ export default function PricingCard({
       <Button
         className={`mb-8 w-full rounded-full px-4 py-2 ${
           isPopular
-            ? "text-primary bg-white hover:bg-gray-50"
-            : "bg-primary text-white hover:bg-blue-600"
+            ? "text-primary bg-background hover:bg-background/45"
+            : "bg-primary hover:bg-accent text-white"
         }`}
         text="Get started"
       />

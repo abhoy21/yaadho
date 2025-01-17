@@ -5,7 +5,7 @@ import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
 import axios from "axios";
 import { Globe, Lock, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "../../hooks/use-toast";
 import { addContentSchema } from "../lib/zod-schema";
 
@@ -38,6 +38,13 @@ export default function AddContent({
     isPublic: true,
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
+
+  // Add useEffect to check form validity whenever contentData changes
+  useEffect(() => {
+    const validation = addContentSchema.safeParse(contentData);
+    setDisabled(!validation.success);
+  }, [contentData]);
 
   const handleTagNext = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Tab" || e.key === "Enter") {
@@ -79,6 +86,7 @@ export default function AddContent({
       validation.error.errors.forEach((error) => {
         showToast(error.message, "error");
       });
+      setLoading(false);
       return;
     }
 
@@ -235,19 +243,18 @@ export default function AddContent({
                 }}
                 type="button"
                 variant="danger"
-              >
-                Cancel
-              </Button>
+                text="Cancel"
+              />
+
               <Button
                 className={`w-full py-3 font-semibold transition-colors duration-300 ease-in-out ${
-                  loading ? "cursor-not-allowed opacity-50" : ""
+                  disabled || loading ? "cursor-not-allowed opacity-25" : ""
                 }`}
-                disabled={loading}
+                disabled={disabled || loading}
                 type="submit"
                 variant="primary"
-              >
-                {loading ? "Saving..." : "Save"}
-              </Button>
+                text={loading ? "Saving..." : "Save"}
+              />
             </div>
           </form>
         </Modal.Content>

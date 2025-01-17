@@ -77,7 +77,7 @@ export default function CardOptions({
             ) : (
               <Lock className="h-5 w-5 text-red-600" />
             )}
-            <span className="text-background ml-2">
+            <span className="text-text ml-2">
               {isPublic ? "This card is public" : "This card is private"}
             </span>
           </div>
