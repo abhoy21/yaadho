@@ -104,7 +104,7 @@ export default function DashboardHeader(): React.JSX.Element {
               setIsAddModalOpen(true);
             }}
             size="md"
-            text="Add Task"
+            text="Add Content"
             variant="primary"
           />
           <Image

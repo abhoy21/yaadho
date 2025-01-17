@@ -1,18 +1,32 @@
 {
   "manifest_version": 3,
-  "name": "Link Notifier",
+  "name": "Yaad Ho",
   "version": "1.0",
-  "permissions": ["notifications", "storage", "activeTab"],
+  "description": "Save interesting content from around the web",
+ "permissions": [
+    "activeTab",
+    "storage",
+    "notifications",
+    "scripting"
+  ],
+   "host_permissions": [
+    "*://*.twitter.com/*",
+    "*://*.x.com/*",
+    "*://*.linkedin.com/*",
+    "*://*.youtube.com/*",
+    "<all_urls>"
+  ],
+  "icons": {
+    "32": "public/icon32.png"
+  },
+ "action": {
+    "default_icon": {
+      "32": "public/icon32.png"
+    },
+    "default_title": "Yaad Ho"
+  },
   "background": {
-    "service_worker": "dist/background.js"
-  },
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["dist/content.js"]
-    }
-  ]
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
 }

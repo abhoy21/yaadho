@@ -1,8 +1,9 @@
+import { Button } from "@repo/ui/button";
 import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import { MessageCircle, Send } from "lucide-react";
+import { InfoIcon, MessageCircle } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface AiModalProps {
@@ -56,6 +57,11 @@ export default function AiModal({
   const [inputValue, setInputValue] = useState("");
   const messageEndRef = useRef<HTMLDivElement>(null);
 
+  const suggestions = [
+    "Can you help me analyze the content regarding a podcast about a footballer?",
+    "Find me the design resources i saved probably a twitter post",
+  ];
+
   const scrollToBottom = (): void => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -107,7 +113,7 @@ export default function AiModal({
 
   return (
     <Modal
-      className="font-montserrat max-w-5xl rounded-3xl"
+      className="max-w-5xl rounded-3xl"
       isOpen
       onClose={() => {
         setAiModal(false);
@@ -167,18 +173,8 @@ export default function AiModal({
       </Modal.Content>
 
       <Modal.Footer className="border-primary/20 from-primary/20 to-secondary/20 rounded-b-3xl border-b bg-gradient-to-r p-4">
-        <div className="w-full">
+        <div className="flex w-full flex-col gap-3">
           <Input
-            Icon={
-              <Send
-                className={`h-5 w-5 transition-all duration-200 ${
-                  loading
-                    ? "text-primary/40"
-                    : "text-primary hover:text-accent cursor-pointer hover:scale-110"
-                }`}
-                onClick={handleAiMessage}
-              />
-            }
             className="py-2 text-lg shadow-lg transition-all duration-200 focus-within:shadow-xl md:py-6"
             disabled={loading}
             onChange={(e) => {
@@ -194,6 +190,17 @@ export default function AiModal({
             type="text"
             value={inputValue}
           />
+          <div className="text-accent flex gap-2 px-2">
+            {suggestions.map((suggestion, index) => (
+              <Button
+                key={index}
+                onClick={() => setInputValue(suggestion)}
+                className="bg-accent/20 hover:bg-secondary/20  w-full gap-2 rounded-xl px-4 py-2 transition-all duration-200 hover:shadow-md"
+                text={suggestion}
+                icon={<InfoIcon className="text-accent h-5 w-5" />}
+              />
+            ))}
+          </div>
         </div>
       </Modal.Footer>
     </Modal>
