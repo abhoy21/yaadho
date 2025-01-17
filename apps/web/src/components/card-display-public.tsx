@@ -1,6 +1,6 @@
 "use client";
 import { Card } from "@repo/ui/card";
-import { EllipsisVertical, Globe, Lock, X } from "lucide-react";
+import { Globe, Lock } from "lucide-react";
 import { useState } from "react";
 import { LinkPreview } from "./link-preview";
 
@@ -14,7 +14,6 @@ interface CustomCardProps {
 }
 
 export default function CardDisplayPublic({
-  id,
   title,
   content,
   tags,
@@ -40,37 +39,8 @@ export default function CardDisplayPublic({
         }}
       >
         <Card.Tags className="text-accent ml-4" tags={tags} />
-
-        <div className="sm:text-md text-accent mt-4 text-sm font-medium lg:text-lg">
-          <div
-            className="cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              setModalOpen(!modalOpen);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.stopPropagation();
-                setModalOpen(!modalOpen);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            {!modalOpen ? (
-              <EllipsisVertical />
-            ) : (
-              <X
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setModalOpen(false);
-                }}
-              />
-            )}
-          </div>
-        </div>
       </Card.Header>
-      <Card.Title className="text-text font-montserrat">{title}</Card.Title>
+      <Card.Title className="text-accent font-montserrat">{title}</Card.Title>
       <Card.Content className="bg-secondary/50 text-accent font-montserrat my-2 mb-4 h-[200px] overflow-hidden rounded-xl p-2 backdrop-blur-sm">
         {isValidUrl(content) ? (
           <LinkPreview url={content} />

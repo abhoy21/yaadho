@@ -112,8 +112,8 @@ export default function Hero(): React.JSX.Element {
               </p>
               <div className="absolute left-0 right-0 flex items-center justify-center">
                 <Button
-                  className="hover:bg-secondary py-4 pr-4"
-                  icon={<CirclePlay className="ml-4 h-6 w-6 text-white" />}
+                  className="hover:bg-secondary py-4 pr-6"
+                  icon={<CirclePlay className=" h-6 w-6 text-white" />}
                   size="lg"
                   text="Get Demo"
                   variant="primary"

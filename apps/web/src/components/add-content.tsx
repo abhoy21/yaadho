@@ -40,7 +40,6 @@ export default function AddContent({
   const [loading, setLoading] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  // Add useEffect to check form validity whenever contentData changes
   useEffect(() => {
     const validation = addContentSchema.safeParse(contentData);
     setDisabled(!validation.success);

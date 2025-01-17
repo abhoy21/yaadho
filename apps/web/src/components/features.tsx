@@ -109,8 +109,9 @@ export default function Features(): React.JSX.Element {
               <Image
                 alt="dashboard"
                 className="h-auto w-full object-cover"
-                fill
+                height={1080}
                 src="/dashboard_preview.png"
+                width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
                 <h4 className="mb-2 text-2xl font-semibold">
@@ -128,7 +129,7 @@ export default function Features(): React.JSX.Element {
                 alt="dashboard"
                 className="h-auto w-full object-cover"
                 height={1080}
-                src="/dashboard_preview2.png"
+                src="/dashboard_preview4.png"
                 width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
@@ -167,7 +168,7 @@ export default function Features(): React.JSX.Element {
                 alt="dashboard"
                 className="h-auto w-full object-cover"
                 height={1080}
-                src="/dashboard_preview4.png"
+                src="/dashboard_preview2.png"
                 width={1920}
               />
               <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">

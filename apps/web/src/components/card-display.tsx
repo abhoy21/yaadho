@@ -80,12 +80,12 @@ export default function CardDisplay({
           </div>
         </div>
       </Card.Header>
-      <Card.Title className="text-text font-montserrat">{title}</Card.Title>
+      <Card.Title className="text-accent font-montserrat">{title}</Card.Title>
       <Card.Content className="bg-secondary/50 text-accent font-montserrat my-2 mb-4 h-[200px] overflow-hidden rounded-xl p-2 backdrop-blur-sm">
         {isValidUrl(content) ? (
           <LinkPreview url={content} />
         ) : (
-          <p className="sm:text-md text-sm tracking-wider md:text-lg lg:text-xl">
+          <p className="sm:text-md text-background text-sm tracking-wider md:text-lg lg:text-xl">
             {content}
           </p>
         )}
