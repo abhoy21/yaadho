@@ -61,6 +61,7 @@ export function SearchModal({
           placeholder="Find Something..."
           type="text"
           value={searchTerm}
+          autoFocus
         />
       </div>
     </div>

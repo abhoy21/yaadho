@@ -197,7 +197,7 @@ export default function AiModal({
                 onClick={() => setInputValue(suggestion)}
                 className="bg-accent/20 hover:bg-secondary/20  w-full gap-2 rounded-xl px-4 py-2 transition-all duration-200 hover:shadow-md"
                 text={suggestion}
-                icon={<InfoIcon className="text-accent h-5 w-5" />}
+                icon={<InfoIcon className="h-5 w-5 text-white" />}
               />
             ))}
           </div>

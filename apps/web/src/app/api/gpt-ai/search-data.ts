@@ -27,7 +27,10 @@ interface ContentItem {
   tags: { name: string }[];
 }
 
-export const searchData = async (query: string): Promise<SearchResponse> => {
+export const searchData = async (
+  query: string,
+  userId: number,
+): Promise<SearchResponse> => {
   const searchTerms = query
     .toLowerCase()
     .replace(/tagged|show me|notes|containing|about/gi, "")
@@ -37,6 +40,7 @@ export const searchData = async (query: string): Promise<SearchResponse> => {
 
   const content = await prisma.content.findMany({
     where: {
+      userId,
       OR: [
         {
           title: {

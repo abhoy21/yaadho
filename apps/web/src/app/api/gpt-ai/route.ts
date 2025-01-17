@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { systemPrompt, userPrompt } from "./prompt";
@@ -9,10 +10,14 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
+    const token = await getToken({ req });
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
     const { userQuery }: { userQuery: string } = (await req.json()) as {
       userQuery: string;
     };
-    const searchResults = await searchData(userQuery);
+    const searchResults = await searchData(userQuery, token.userId);
 
     const organisedUserQuery: string = userPrompt(
       searchResults.userQuery,
