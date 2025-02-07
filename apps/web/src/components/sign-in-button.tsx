@@ -38,7 +38,7 @@ export function SignInButton(): React.JSX.Element {
             <SignupModal
               ToastContainer={ToastContainer}
               setAuthMode={() => {
-                setAuthMode("Signup");
+                setAuthMode("Signin");
               }}
               setIsOpen={setIsOpen}
               showToast={showToast}

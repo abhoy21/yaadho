@@ -2,6 +2,7 @@
 import { Button } from "@repo/ui/button";
 import Input from "@repo/ui/input";
 import { Modal } from "@repo/ui/modal";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -55,28 +56,23 @@ export default function SignupModal({
       }
 
       try {
-        const response = await signIn("credentials", {
-          username: validation.data.username,
-          email: validation.data.email,
-          password: validation.data.password,
-          redirect: false,
-          callbackUrl: "/dashboard",
-        });
+        const response = await axios.post(
+          "/api/auth/signup",
+          signUpFormRef.current,
+        );
 
-        if (response?.error) {
-          showToast(response.error, "error");
+        if (response.status !== 201) {
+          showToast("User Registration Failed! Please try again.", "error");
           return;
         }
 
-        showToast("Signed in successfully!", "success");
-        handleClose();
-        router.push("/dashboard");
-        router.refresh();
+        showToast("Signed up successfully!", "success");
+        setAuthMode("Signin");
       } catch (error) {
-        showToast("Sign in failed.", "error");
+        showToast("Sign up failed.", "error");
       }
     },
-    [router, showToast, handleClose],
+    [showToast, handleClose, setAuthMode],
   );
 
   const handleGoogleSignIn = useCallback(() => {
@@ -142,7 +138,7 @@ export default function SignupModal({
             <Button
               className="hover:bg-secondary w-full py-3 font-semibold transition-colors duration-300 ease-in-out"
               size="lg"
-              text="Sign In"
+              text="Sign Up"
               type="submit"
               variant="primary"
             />

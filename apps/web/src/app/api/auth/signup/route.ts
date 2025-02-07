@@ -8,32 +8,43 @@ import { signupSchema } from "../../../../lib/zod-schema";
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const body = (await req.json()) as User;
-
+    console.log("body", body);
     const validation = await signupSchema.safeParseAsync(body);
-
+    console.log("validation", validation);
     if (!validation.success) {
-      const errors = validation.error.errors;
-      return NextResponse.json({ message: errors }, { status: 400 });
+      const errors = validation.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+      return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const { username, email, password } = body;
+    const { username, email, password } = validation.data;
 
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email,
-        username,
-      },
+    const existingEmail = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (existingUser) {
+    const existingUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingEmail) {
       return NextResponse.json(
-        { message: "User already exists" },
+        { message: "Email already in use" },
+        { status: 400 },
+      );
+    }
+
+    if (existingUsername) {
+      return NextResponse.json(
+        { message: "Username already taken" },
         { status: 400 },
       );
     }
 
     const hashedPassword = await hash(password, 10);
-
+    console.log("hashedPassword", hashedPassword);
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -46,14 +57,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         username: true,
       },
     });
-
+    console.log("newUser", newUser);
     return NextResponse.json(
       { message: "User created successfully", newUser },
-      { status: 200 },
+      { status: 201 },
     );
   } catch (error) {
+    console.error("Signup error:", error);
     return NextResponse.json(
-      { message: "Error creating user" },
+      {
+        message: error instanceof Error ? error.message : "Error creating user",
+      },
       { status: 500 },
     );
   }
