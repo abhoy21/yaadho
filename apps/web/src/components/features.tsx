@@ -13,8 +13,8 @@ export default function Features(): React.JSX.Element {
     <div className="my-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="my-16 text-center">
-          <h3 className="text-md shadow-secondary/45 mx-auto w-48 rounded-full bg-transparent px-4 py-2 font-medium tracking-widest text-gray-500 shadow-md ">
+        <div className="animate-fade-in-up my-16 text-center">
+          <h3 className="text-md shadow-secondary/45 mx-auto w-48 rounded-full bg-transparent px-4 py-2 font-medium tracking-widest text-gray-500 shadow-md">
             SOLUTIONS
           </h3>
           <h1 className="my-6 text-4xl font-bold tracking-wide text-gray-900">
@@ -23,38 +23,47 @@ export default function Features(): React.JSX.Element {
         </div>
 
         {/* Features */}
-        <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div className="rounded-lg border border-gray-100 bg-white px-4 py-8 shadow-sm">
+        <div className="animate-fade-in-up mb-16 grid grid-cols-1 gap-8 delay-100 md:grid-cols-3">
+          <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
             <div className="mb-4 inline-flex items-center justify-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50">
                 <User className="h-6 w-6 text-orange-500" />
               </div>
             </div>
-            <p className="text-sm text-gray-600">
+            <h3 className="mb-2 text-lg font-semibold text-gray-800">
+              Personalized Organization
+            </h3>
+            <p className="text-gray-600">
               Effortlessly sync and organize links, notes, and ideas in one
               place for quick access and better decision-making.
             </p>
           </div>
 
-          <div className="rounded-lg border border-gray-100 bg-white px-4 py-8 shadow-sm">
+          <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
             <div className="mb-4 inline-flex items-center justify-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50">
                 <BarChart3 className="h-5 w-5 text-blue-500" />
               </div>
             </div>
-            <p className="text-sm text-gray-600">
+            <h3 className="mb-2 text-lg font-semibold text-gray-800">
+              Smart Prioritization
+            </h3>
+            <p className="text-gray-600">
               Categorize and prioritize your saved content to stay focused and
               boost productivity.
             </p>
           </div>
 
-          <div className="rounded-lg border border-gray-100 bg-white px-4 py-8 shadow-sm">
+          <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
             <div className="mb-4 inline-flex items-center justify-center">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50">
                 <Clock className="h-5 w-5 text-purple-500" />
               </div>
             </div>
-            <p className="text-sm text-gray-600">
+            <h3 className="mb-2 text-lg font-semibold text-gray-800">
+              Progress Tracking
+            </h3>
+            <p className="text-gray-600">
               Gain actionable insights and track progress visually to stay ahead
               of your goals.
             </p>
@@ -62,15 +71,9 @@ export default function Features(): React.JSX.Element {
         </div>
 
         {/* Dashboard Image */}
-        <div className="relative">
-          <div className=" mb-16 max-h-[575px] overflow-hidden rounded-2xl">
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                paddingTop: "56.25%",
-              }}
-            >
+        <div className="animate-fade-in-up relative mb-16 delay-200">
+          <div className="max-h-[575px] overflow-hidden rounded-2xl border border-gray-200 shadow-lg">
+            <div className="relative aspect-video w-full">
               <Image
                 alt="Dashboard Preview"
                 className="object-cover"
@@ -79,24 +82,25 @@ export default function Features(): React.JSX.Element {
                 src="/dashboard_preview.png"
               />
             </div>
-
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/100" />
-            <div className="absolute bottom-32 left-[10px] z-10 md:bottom-40 md:left-14">
-              <div className="flex h-14 w-14 -rotate-12 transform items-center justify-center rounded-xl bg-cyan-50 shadow-lg md:h-28 md:w-28">
+
+            <div className="animate-float absolute bottom-32 left-[10px] z-10 md:bottom-40 md:left-14">
+              <div className="flex h-14 w-14 -rotate-12 transform items-center justify-center rounded-xl bg-cyan-50 shadow-lg transition-all duration-500 hover:rotate-0 hover:shadow-xl md:h-28 md:w-28">
                 <MousePointerClick className="h-8 w-8 text-cyan-500 md:h-16 md:w-16" />
               </div>
             </div>
-            <div className="absolute right-[8px] top-32 md:right-8 md:top-40">
-              <div className="flex h-14 w-14 rotate-6 transform items-center justify-center rounded-xl bg-green-50 shadow-lg md:h-28 md:w-28">
+
+            <div className="animate-float absolute right-[8px] top-32 z-10 delay-200 md:right-8 md:top-40">
+              <div className="flex h-14 w-14 rotate-6 transform items-center justify-center rounded-xl bg-green-50 shadow-lg transition-all duration-500 hover:rotate-0 hover:shadow-xl md:h-28 md:w-28">
                 <DraftingCompass className="h-8 w-8 text-green-500 md:h-16 md:w-16" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* bento grid */}
-        <div className="mb-16 text-center">
-          <h3 className="mb-4 text-2xl font-bold tracking-wider">
+        {/* Bento Grid */}
+        <div className="animate-fade-in-up mb-16 text-center delay-300">
+          <h3 className="mb-4 text-2xl font-bold tracking-wider sm:text-3xl lg:text-5xl">
             Centralized Knowledge Hub
           </h3>
           <p className="mb-16 text-gray-500">
@@ -104,78 +108,85 @@ export default function Features(): React.JSX.Element {
             in a simple, intuitive system.
           </p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 ">
-            <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md sm:col-span-2 lg:col-span-3">
-              <Image
-                alt="dashboard"
-                className="h-auto w-full object-cover"
-                height={1080}
-                src="/dashboard_preview.png"
-                width={1920}
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
-                <h4 className="mb-2 text-2xl font-semibold">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Large card (top left) */}
+            <div className="relative col-span-1 h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:col-span-2 lg:col-span-3">
+              <div className="relative aspect-video w-full">
+                <Image
+                  alt="dashboard"
+                  className="object-cover"
+                  fill
+                  src="/dashboard_preview.png"
+                />
+              </div>
+              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 text-white">
+                <h4 className="mb-2 text-xl font-semibold md:text-2xl">
                   Collaborate and Share Effortlessly
                 </h4>
-                <p className="text-lg text-gray-300">
+                <p className="text-gray-300">
                   Share links, notes, and insights with your team to streamline
                   collaboration and enhance productivity.
                 </p>
               </div>
             </div>
 
-            <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md">
-              <Image
-                alt="dashboard"
-                className="h-auto w-full object-cover"
-                height={1080}
-                src="/dashboard_preview4.png"
-                width={1920}
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
-                <h4 className="mb-2 text-2xl font-semibold">
-                  Intelligent Content Management
+            {/* Small card (top right) */}
+            <div className="relative col-span-1 h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="relative aspect-square w-full">
+                <Image
+                  alt="dashboard"
+                  className="object-cover"
+                  fill
+                  src="/dashboard_preview4.png"
+                />
+              </div>
+              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 text-white">
+                <h4 className="mb-2 text-xl font-semibold md:text-2xl">
+                  Intelligent Content
                 </h4>
-                <p className="text-lg text-gray-300">
-                  Organize your saved links and notes effectively, set reminders
-                  to revisit important resources, and stay on top of your
-                  knowledge goals with smart tools.
+                <p className="text-gray-300">
+                  Organize your saved links and notes effectively with smart
+                  tools.
                 </p>
               </div>
             </div>
 
-            <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md">
-              <Image
-                alt="dashboard"
-                className="h-auto w-full object-cover"
-                height={1080}
-                src="/dashboard_preview3.png"
-                width={1920}
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
-                <h4 className="mb-2 text-2xl font-semibold">
-                  Advanced Organization Features
+            {/* Small card (middle left) */}
+            <div className="relative col-span-1 h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="relative aspect-square w-full">
+                <Image
+                  alt="dashboard"
+                  className="object-cover"
+                  fill
+                  src="/dashboard_preview3.png"
+                />
+              </div>
+              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 text-white">
+                <h4 className="mb-2 text-xl font-semibold md:text-2xl">
+                  Advanced Organization
                 </h4>
-                <p className="text-lg text-gray-300">
-                  Use tags and filters to structure your saved content for easy
-                  retrieval and better organization.
+                <p className="text-gray-300">
+                  Use tags and filters to structure your content for easy
+                  retrieval.
                 </p>
               </div>
             </div>
 
-            <div className="relative col-span-1 max-h-[370px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md sm:col-span-2 lg:col-span-3">
-              <Image
-                alt="dashboard"
-                className="h-auto w-full object-cover"
-                height={1080}
-                src="/dashboard_preview2.png"
-                width={1920}
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-start bg-black bg-opacity-50 p-6 text-white">
-                <h4 className="mb-2 text-2xl font-semibold">
+            {/* Large card (bottom right) */}
+            <div className="relative col-span-1 h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:col-span-2 lg:col-span-3">
+              <div className="relative aspect-video w-full">
+                <Image
+                  alt="dashboard"
+                  className="object-cover"
+                  fill
+                  src="/dashboard_preview2.png"
+                />
+              </div>
+              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 text-white">
+                <h4 className="mb-2 text-xl font-semibold md:text-2xl">
                   Real-Time Updates
                 </h4>
-                <p className="text-lg text-gray-300">
+                <p className="text-gray-300">
                   Keep all your notes and links up to date with automatic
                   syncing across your devices.
                 </p>
@@ -184,9 +195,9 @@ export default function Features(): React.JSX.Element {
           </div>
         </div>
 
-        <p className="text-center text-lg font-semibold tracking-widest text-gray-700">
+        <p className="animate-fade-in-up text-center text-lg font-semibold tracking-widest text-gray-700 delay-500">
           And a lot More...
-          <ArrowDown className="ml-2 inline-block h-6 w-6 text-gray-700" />
+          <ArrowDown className="ml-2 inline-block h-6 w-6 animate-bounce text-gray-700" />
         </p>
       </div>
     </div>

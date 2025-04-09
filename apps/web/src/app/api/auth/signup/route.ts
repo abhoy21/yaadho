@@ -58,10 +58,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       },
     });
     console.log("newUser", newUser);
+
+    // Simply return the success response
     return NextResponse.json(
       { message: "User created successfully", newUser },
-      { status: 201 },
+      { status: 201 }
     );
+
   } catch (error) {
     console.error("Signup error:", error);
     return NextResponse.json(
